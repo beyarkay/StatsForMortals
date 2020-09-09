@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <title>Really big, really fast</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+          integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="pure-g">
+    <div class="pure-u-1-5">
+        <a class="pure-button button-xsmall" href="0_intro.html">Back</a>
+    </div>
+    <div class="pure-u-3-5">
+        <div class="page-count">Page 2 of 4</div>
+    </div>
+    <div class="pure-u-1-5">
+        <a class="pure-button button-xsmall" href="2_what_next.html">Next</a>
+    </div>
+</div>
+<div class="pure-g">
+    <div class="pure-u-1-1">
+        <h2>Really big, really fast</h2>
+        If you take any number (call it \(k\)) and raise it to the
+        power of \(x\):
+        \[ f(x) = k^{x}\]
+        then you get a graph like this:
+        <div id="plot_pow_k_x"></div>
+        The graph changes drastically depending on the value of \(k\):
+        <ul>
+            <li>\(k > 1\): The graph gets really small as \(x\) goes off to the left, but
+            grows very fast as \(x\) increases</li>
+            <li>\(k = 1\): The graph is just completely flat (1 to the power of anything is
+                just 1)</li>
+            <li>\(k < 1\): This looks like a mirrored version of when \(k > 1\). The graph
+            kinda flips itself around the y-axis as you go from \(k > 1\) to \(k < 1\)</li>
+        </ul>
+
+        Click the checkbox to show the red standard normal curve, and then try fiddling
+        with the value for \(k\) to get the graph of \(k^{x}\) as close to the
+        standard normal curve as you can. <br>We can get \(k^{x}\) pretty close to the red
+        standard normal curve on one side or the other, but never both.
+        Let's try to fix that, as well as finding an actual value for \(k\).
+
+        <h3>Making \(k^{x}\) symmetrical</h3>
+        A way for making \(k^{x}\) symmetrical is to find a function that makes
+        \(x\) symmetrical:
+        \[f(x) = k^{\text{symmetrical function}}\]
+
+        We could use the absolute value of x, which is nice
+        and symmetrical like we wanted, however when we turn \(k^{x}\) into \(k^{\lvert x \rvert}\),
+        the graph is pointy instead of smooth at \(x=0\), which is not what we wanted:
+        \[f(x) = k^{\lvert x \rvert}\]
+        <div id="plot_exp_abs_val"></div>
+        We're getting close now. When you make \(k < 1\),
+        \(k^{\lvert x \rvert}\) looks sort of similar to our standard normal curve,
+        so let's try to get rid of that pointy
+        bit on the x-axis.
+
+        <br><br>A second option for building a symmetrical function is
+        to use \(x^{2}\) as our symmetrical something:
+        \[f(x) = k^{x^{2}}\]
+        <div id="plot_pow_x_2"></div>
+        Again, see how \(k^{x^{2}}\) is starting to look very close to the standard normal curve when
+        \(k < 1\)?
+        <details>
+            <summary>Why is the standard normal shorter than \(k^{x^{2}}\)?</summary>
+            We'll get to a proper explanation soon, but the short answer is that
+            the standard normal distribution has an extra factor that shrinks it
+            down so that the area under the curve is 1. Our curve of \(k^{x^{2}}\)
+            doesn't have this factor (yet).
+        </details>
+
+        <h3>Finding a value for \(k\) in \(k^{x^2}\)</h3>
+        We <i>could</i> use any positive value for \(k\) if we really wanted to,
+        but we're going to be working with this formula <i>a lot</i>.
+        Finding a value for \(k\) that has some nice properties will make things
+        a lot easier later on down the line.
+
+        <br>Play with the slider for \(k\) below and try to find a value for \(k\) that
+        gets \(k^{x^2}\) as close to the standard normal curve as possible:
+        \[f(x) = k^{x^2}\]
+        <div id="plot_k_eq_point_four"></div>
+
+        It seems like we can get pretty close to the standard normal curve with \(k^{x^2}\)
+        when we've set \(k \approx 0.37\).
+
+        <br><br>Euler's constant \(e \approx 2.718\dots\) is really easy to work with
+        when integrating and differentiating, so let's try to use
+        \(e\) somehow, while still keeping our graph looking smooth and hill shaped.
+
+        <br>If you're super sneaky, then you might see that
+        \[e^{-1} = \frac 1 e \approx \frac 1 {2.718} = 0.367 \approx k\]
+        Euler's constant was hiding inside of \(k^{x}\) all along! We can rearrange our
+        formula and get
+        \[k^{x^2} = \left( \frac 1 {k} \right) ^{-x^2} \approx e^{-x^2}\]
+
+        So using \(e\) as the base for our function will make our lives easier,
+        and using \(-x^2\) in the exponent makes our function into a nice smooth hill shape.
+        <div id="plot_compare"></div>
+        <br>
+        So we're close, but not quite there yet, so far we've got:
+        \[f(x) = e^{-x^2}\]
+        And we need to get to:
+        \[f(x) = \frac 1 {\sqrt{2 \pi}} e^{-\frac 1 2 x^2}\]
+        <div class="pure-g">
+            <div class="pure-u-1-5">
+                <a class="pure-button button-xsmall" href="0_intro.html">Back</a>
+            </div>
+            <div class="pure-u-3-5">
+                <div class="page-count">Page 2 of 4</div>
+            </div>
+            <div class="pure-u-1-5">
+                <a class="pure-button button-xsmall" href="2_what_next.html">Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module">
+
+    import {buildGraph} from "./script.js";
+
+    //plot_pow_k_x
+    buildGraph(
+        // div_id
+        'plot_pow_k_x',
+
+        // graph_params
+        {
+            xDomain: [-3, 3],
+            yDomain: [0, 5],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // slider for k in e ^{k * |x|}
+            {
+                key: 'k',
+                type: 'range',
+                min: 0.1,
+                max: 5,
+                step: 0.01,
+                value: 2.7,
+                label: 'k = ',
+                color: 'teal',
+            }, // Use abs(x) instead of x
+            {
+                key: 'show_normal',
+                type: 'checkbox',
+                checked: false,
+                label: 'Show the standard normal curve',
+                color: 'firebrick',
+            }
+        ],
+        // function_params
+        [
+            {
+                key: 'k_to_the_x',
+                func: (x, params) => {
+                    // if ('plot' + '_' + 'use_abs' in params && params['plot' + '_' + 'use_abs']) {
+                    //     x = Math.abs(x);
+                    // }
+                    return Math.pow(params['plot_pow_k_x' + '_' + 'k'], x);
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'teal',
+                label: ''
+            }, {
+            key: 'std_norm',
+            func: (x, params) => {
+                let mu = 0;
+                let sigma = 1;
+                return Math.exp((-0.5 * Math.pow((x - mu) / sigma, 2))) / (sigma * Math.sqrt(2 * Math.PI));
+            },
+            calcOpacity: (params) => {
+                if ('plot_pow_k_x' + '_' + 'show_normal' in params && params['plot_pow_k_x' + '_' + 'show_normal']) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            },
+            color: 'firebrick',
+            label: ''
+        },
+        ]
+    );
+
+    //plot_abs_val
+    buildGraph(
+        // div_id
+        'plot_abs_val',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 5],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // slider for k in e ^{k * |x|}
+            // {
+            //     key: 'k',
+            //     type: 'range',
+            //     min: 0.1,
+            //     max: 5,
+            //     step: 0.01,
+            //     value: 2.7,
+            //     label: 'k = ',
+            //     color: 'teal',
+            // }, // Use abs(x) instead of x
+            // {
+            //     key: 'show_normal',
+            //     type: 'checkbox',
+            //     checked: false,
+            //     label: 'Show the normal curve',
+            //     color: 'firebrick',
+            // }
+        ],
+        // function_params
+        [
+            {
+                key: 'abs_x',
+                func: (x, params) => {
+                    return Math.abs(x);
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'teal',
+                label: ''
+            }
+        ]
+    );
+
+    //plot_exp_abs_val
+    buildGraph(
+        // div_id
+        'plot_exp_abs_val',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 5],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // slider for k in e ^{k * |x|}
+            {
+                key: 'k',
+                type: 'range',
+                min: 0.01,
+                max: 2,
+                step: 0.01,
+                value: 0.2,
+                label: 'k = ',
+                color: 'black',
+            },
+            {
+                key: 'show_pow_k_abs_x',
+                type: 'checkbox',
+                checked: true,
+                label: 'Show \\(k^{\\lvert x \\rvert} \\)',
+                color: 'teal',
+            },
+            {
+                key: 'show_pow_k_x',
+                type: 'checkbox',
+                checked: false,
+                label: 'Show \\( k^x \\)',
+                color: 'firebrick',
+            },
+            {
+                key: 'show_normal',
+                type: 'checkbox',
+                checked: false,
+                label: 'Show standard normal curve',
+                color: 'rebeccapurple',
+            }
+        ],
+        // function_params
+        [
+            {
+                key: 'exp_abs_val',
+                func: (x, params) => {
+                    return Math.pow(params['plot_exp_abs_val' + '_' + 'k'], Math.abs(x));
+                },
+                calcOpacity: (params) => {
+                    if ('plot_exp_abs_val' + '_' + 'show_pow_k_abs_x' in params && params['plot_exp_abs_val' + '_' + 'show_pow_k_abs_x']) {
+                        return 1;
+                    }
+                    return 0;
+                },
+                color: 'teal',
+                label: ''
+            },
+            {
+                key: 'pow_k_x',
+                func: (x, params) => {
+                    return Math.pow(params['plot_exp_abs_val' + '_' + 'k'], x);
+                },
+                calcOpacity: (params) => {
+                    if ('plot_exp_abs_val' + '_' + 'show_pow_k_x' in params && params['plot_exp_abs_val' + '_' + 'show_pow_k_x']) {
+                        return 1;
+                    }
+                    return 0;
+                },
+                color: 'firebrick',
+                label: ''
+            }, {
+            key: 'std_norm',
+            func: (x, params) => {
+                let mu = 0;
+                let sigma = 1;
+                return Math.exp((-0.5 * Math.pow((x - mu) / sigma, 2))) / (sigma * Math.sqrt(2 * Math.PI));
+            },
+            calcOpacity: (params) => {
+                if ('plot_exp_abs_val' + '_' + 'show_normal' in params && params['plot_exp_abs_val' + '_' + 'show_normal']) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            },
+            color: 'rebeccapurple',
+            label: ''
+        },
+        ]
+    );
+
+    //plot_pow_x_2
+    buildGraph(
+        // div_id
+        'plot_pow_x_2',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 5],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            {
+                key: 'k',
+                type: 'range',
+                min: 0.1,
+                max: 2,
+                step: 0.01,
+                value: 1.5,
+                label: 'k = ',
+                color: 'teal',
+            }, {
+            key: 'show_x_2',
+            type: 'checkbox',
+            checked: true,
+            label: 'Show \\(k^{ x^ 2} \\)',
+            color: 'teal',
+        },
+            {
+                key: 'show_pow_k_x',
+                type: 'checkbox',
+                checked: false,
+                label: 'Show \\( k^x \\)',
+                color: 'firebrick',
+            },
+            {
+                key: 'show_normal',
+                type: 'checkbox',
+                checked: false,
+                label: 'Show standard normal curve',
+                color: 'rebeccapurple',
+            }
+        ],
+        // function_params
+        [
+            {
+                key: 'pow_x_2',
+                func: (x, params) => {
+                    return Math.pow(params['plot_pow_x_2' + '_' + 'k'], Math.pow(x, 2));
+                    // return params['plot_pow_x_2' + '_' + 'k'] * Math.exp( Math.abs(x));
+                },
+                calcOpacity: (params) => {
+                    if ('plot_pow_x_2' + '_' + 'show_x_2' in params && params['plot_pow_x_2' + '_' + 'show_x_2']) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                },
+                color: 'teal',
+                label: ''
+            },
+            {
+                key: 'pow_k_x',
+                func: (x, params) => {
+                    return Math.pow(params['plot_pow_x_2' + '_' + 'k'], x);
+                },
+                calcOpacity: (params) => {
+                    if ('plot_pow_x_2' + '_' + 'show_pow_k_x' in params && params['plot_pow_x_2' + '_' + 'show_pow_k_x']) {
+                        return 1;
+                    }
+                    return 0;
+                },
+                color: 'firebrick',
+                label: ''
+            },
+            {
+                key: 'std_norm',
+                func: (x, params) => {
+                    let mu = 0;
+                    let sigma = 1;
+                    return Math.exp((-0.5 * Math.pow((x - mu) / sigma, 2))) / (sigma * Math.sqrt(2 * Math.PI));
+                },
+                calcOpacity: (params) => {
+                    if ('plot_pow_x_2' + '_' + 'show_normal' in params && params['plot_pow_x_2' + '_' + 'show_normal']) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                },
+                color: 'rebeccapurple',
+                label: ''
+            },
+        ]
+    );
+
+    // plot_k_eq_point_four
+    buildGraph(
+        // div_id
+        'plot_k_eq_point_four',
+
+        // graph_params
+        {
+            xDomain: [-2, 2],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            {
+                key: 'k',
+                type: 'range',
+                min: 0.01,
+                max: 1,
+                step: 0.001,
+                value: 0.45,
+                label: 'k = ',
+                color: 'teal',
+            }, // Use abs(x) instead of x
+            {
+                key: 'show_normal',
+                type: 'checkbox',
+                checked: true,
+                label: 'Show the standard normal curve',
+                color: 'firebrick',
+            }
+        ],
+        // function_params
+        [
+            {
+                key: 'k_eq_point_four',
+                func: (x, params) => {
+                    return Math.pow(params['plot_k_eq_point_four' + '_' + 'k'], Math.pow(x, 2));
+                },
+                calcOpacity: (params) => {
+                    if ('plot_k_eq_point_four' + '_' + 'show_normal' in params && params['plot_k_eq_point_four' + '_' + 'show_normal']) {
+                        return 0.5;
+                    } else {
+                        return 1;
+                    }
+                },
+                color: 'teal',
+                label: ''
+            },
+            {
+                key: 'std_norm',
+                func: (x, params) => {
+                    return Math.exp(-x * x);
+                },
+                calcOpacity: (params) => {
+                    if ('plot_k_eq_point_four' + '_' + 'show_normal' in params && params['plot_k_eq_point_four' + '_' + 'show_normal']) {
+                        return 0.5;
+                    } else {
+                        return 0;
+                    }
+                },
+                color: 'firebrick',
+                label: ''
+            },
+        ]
+    );
+
+    //plot_compare
+    buildGraph(
+        // div_id
+        'plot_compare',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            {
+                key: 'show_ours',
+                type: 'checkbox',
+                checked: true,
+                label: 'Show our curve',
+                color: 'teal',
+            },
+            {
+                key: 'show_normal',
+                type: 'checkbox',
+                checked: true,
+                label: 'Show the standard normal curve',
+                color: 'firebrick',
+            }
+
+        ],
+        // function_params
+        [
+            {
+                key: 'our_func',
+                func: (x, params) => {
+                    return Math.exp(-Math.pow(x, 2));
+                },
+                calcOpacity: (params) => {
+                    if ('plot_compare' + '_' + 'show_ours' in params && params['plot_compare' + '_' + 'show_ours']) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                },
+                color: 'teal',
+                label: '',
+                plot_var: false
+            },
+            {
+                key: 'std_norm',
+                func: (x, params) => {
+                    let mu = 0;
+                    let sigma = 1;
+                    return Math.exp((-0.5 * Math.pow((x - mu) / sigma, 2))) / (sigma * Math.sqrt(2 * Math.PI));
+                },
+                calcOpacity: (params) => {
+                    if ('plot_compare' + '_' + 'show_normal' in params && params['plot_compare' + '_' + 'show_normal']) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                },
+                color: 'firebrick',
+                label: '',
+                plot_var: false
+            }
+        ]
+    );
+
+
+</script>
+</body>

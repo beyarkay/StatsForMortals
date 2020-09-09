@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics for Mere Mortals</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<h1>WTF is a Normal Distribution?</h1>
+<p>Text text text....
+
+
+    tesxakfj</p>
+<h2>The Exponential Function</h2>
+<div id="graph" style="width:600px;height:600px;"></div>
+
+
+<script>
+
+    function normal(x, mu = 0.0, sigma = 1.0) {
+        let quotient = sigma * Math.sqrt(2.0 * Math.PI);
+        let exponent = -0.5 * Math.pow((x - mu) / sigma, 2);
+
+        return 1.0 / (quotient) * Math.exp(exponent)
+    }
+
+
+    function make_data(x_min, x_max, step, func) {
+        let trace = {x: [], y: []};
+        for (let x = x_min; x < x_max; x += step) {
+            trace.x.push(x);
+            trace.y.push(func(x));
+        }
+        return trace
+    }
+
+
+    const steps_sigma = [];
+    const steps_mu = [];
+    const frames_ = [];
+    const sig_min = 0.1;
+    const sig_max = 4.0;
+    const sig_step = 0.1;
+    const mu_min = -3.0;
+    const mu_max = 3.0;
+    const mu_step = 0.1;
+
+    const traces = [make_data(-5, 5, 0.1, (x) => normal(x, mu = 0.0, sigma = sig_min))];
+
+    for (let i = sig_min; i < sig_max; i += sig_step) {
+        for (let j = mu_min; j < mu_max; j += mu_step) {
+            steps_sigma.push({
+                label: i.toString() + " " + j.toString(),
+                method: 'animate',
+                args: [[i], {
+                    mode: 'immediate',
+                    frame: {redraw: false, duration: 100},
+                    transition: {duration: 0}
+                }]
+
+            });
+            steps_mu.push({
+                label: i.toString() + " " + j.toString(),
+                method: 'animate',
+                args: [[j], {
+                    mode: 'immediate',
+                    frame: {redraw: false, duration: 100},
+                    transition: {duration: 0}
+                }]
+
+            });
+            frames_.push({
+                name: i.toString() + " " + j.toString(),
+                data: [make_data(-5, 5, 0.1, (x) => normal(x, mu = j, sigma = i))]
+
+            })
+        }
+    }
+
+    const layout_ = {
+        sliders: [{
+            pad: {t: 30},
+            // xScale: 0.1,
+            // len: 0.9,
+            currentvalue: {
+                xanchor: 'left',
+                prefix: 'sigma=',
+                font: {
+                    color: '#888',
+                    size: 20
+                }
+            },
+            transition: {duration: 500},
+            // By default, animate commands are bound to the most recently animated frame:
+            steps: steps_sigma
+        },
+            {
+                pad: {t: 120},
+                // xScale: 0.1,
+                // len: 0.9,
+                currentvalue: {
+                    xanchor: 'left',
+                    prefix: 'mu=',
+                    font: {
+                        color: '#888',
+                        size: 20
+                    }
+                },
+                transition: {duration: 500},
+                // By default, animate commands are bound to the most recently animated frame:
+                steps: steps_mu
+            }],
+    };
+
+    Plotly.plot('graph', {
+        data: traces,
+        layout: layout_,
+        frames: frames_
+    });
+</script>
+<!--<script>-->
+<!--    const RANGE = {min: -5, max: 5};-->
+
+<!--    function exp(xScale, lambda = 1) {-->
+<!--        return xScale > 0 ? lambda * Math.exp(-lambda * xScale) : NaN;-->
+<!--    }-->
+
+<!--    function normal(xScale, params = {mu: 0.0, sigma: 1.0}) {-->
+<!--        const quotient = params.sigma * Math.sqrt(2.0 * Math.PI);-->
+<!--        const exponent = -0.5 * Math.pow((xScale - params.mu) / params.sigma, 2);-->
+
+<!--        return 1.0 / (quotient) * Math.exp(exponent)-->
+<!--    }-->
+
+<!--    function make_data(x_min, x_max, step, func, params) {-->
+<!--        let trace = {-->
+<!--            xScale: [],-->
+<!--            yScale: [],-->
+<!--        };-->
+<!--        for (let xScale = x_min; xScale < x_max; xScale += step) {-->
+<!--            trace.xScale.push(xScale);-->
+<!--            trace.yScale.push(func(xScale, params));-->
+<!--        }-->
+<!--        return trace-->
+<!--    }-->
+
+<!--    // const norm_trace = make_data(-2, 2, 0.05, function (xScale) {-->
+<!--    //     normal(xScale)-->
+<!--    // });-->
+<!--    const norm_trace = make_data(RANGE.min, RANGE.max, 0.05, normal, {mu: 0.5, sigma: 1.0});-->
+<!--    norm_trace.type = 'lines';-->
+<!--    norm_trace.name = 'Normal';-->
+
+<!--    const trace2 = make_data(-2, 2, 0.05, exp);-->
+<!--    trace2.type = 'lines';-->
+<!--    trace2.name = 'Exponential';-->
+<!--    // trace.label = 'normal';-->
+
+<!--    const mu_frames = [];-->
+<!--    const mu_data = {-->
+<!--        min: -1.0,-->
+<!--        max: 1.0,-->
+<!--        step: 0.1-->
+<!--    };-->
+
+<!--    // Figure out the frames-->
+<!--    for (let mu_val = mu_data.min; mu_val <= mu_data.max; mu_val += mu_data.step) {-->
+<!--        mu_frames.push({-->
+<!--            name: mu_val,-->
+<!--            exp_abs_data: make_data(-->
+<!--                RANGE.min, RANGE.max, 0.05,-->
+<!--                normal,-->
+<!--                {mu: mu_val, sigma: 0.0})-->
+<!--        })-->
+<!--    }-->
+
+<!--    // Figure out the steps (to transition between frames)-->
+<!--    const mu_steps = [];-->
+<!--    for (let mu_val = mu_data.min; mu_val <= mu_data.max; mu_val += mu_data.step) {-->
+<!--        mu_steps.push({-->
+<!--            method: 'animate',-->
+<!--            label: mu_val,-->
+<!--            args: [[mu_val], {-->
+<!--                mode: 'immediate',-->
+<!--                transition: {duration: 300},-->
+<!--                frame: {duration: 300, redraw: false},-->
+<!--            }]-->
+<!--        });-->
+<!--    }-->
+
+<!--    const traces = [norm_trace];-->
+<!--    const layout_ = {-->
+<!--        title: 'Normal Distribution',-->
+<!--        xaxis: {-->
+<!--            title: 'Value of xScale'-->
+<!--        },-->
+<!--        yaxis: {-->
+<!--            title: 'Probability Density'-->
+<!--        },-->
+<!--        sliders: [{-->
+<!--            pad: {l: 130, t: 55},-->
+<!--            currentvalue: {-->
+<!--                visible: true,-->
+<!--                prefix: 'mu:',-->
+<!--                xanchor: 'right',-->
+<!--                font: {size: 20, scaleColor: '#666'}-->
+<!--            },-->
+<!--            steps: mu_steps-->
+<!--        }]-->
+<!--    };-->
+
+
+<!--    // Plotly.plot('graph', {-->
+<!--    //     exp_abs_data: traces,-->
+<!--    //     layout: layout,-->
+<!--    //     frames: mu_frames,-->
+<!--    // });-->
+<!--    Plotly.plot('graph', {-->
+<!--        exp_abs_data: traces,-->
+<!--        layout: layout_,-->
+<!--        frames: mu_frames-->
+<!--    });-->
+<!--</script>-->
+</body>
+</html>

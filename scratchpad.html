@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <title>Scratchpad</title>
+    <!--    <script src="http_d3js.org_d3.v5.js"></script>-->
+    <!--    <script src="http_d3js.org_d3-scale-chromatic.v1.js"></script>-->
+    <!--    <script src="http_unpkg.com_mathjs_dist_math.js"></script>-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <!--    <script src="https://unpkg.com/d3-3d/build/d3-3d.min.js"></script>-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://unpkg.com/mathjs/dist/math.min.js"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        //     </script>
+    <!---->
+    <link rel="stylesheet"
+          href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+          integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div id="three_d_vibes"></div>
+
+<script>
+    const margin = {
+        top: 10,
+        right: 10,
+        bottom: 30,
+        left: 10,
+    };
+    const padding = {
+        left: 40,
+        right: 40
+    };
+    const width = (window.innerWidth - padding.left - padding.right - margin.left - margin.right);
+    const height = width;
+    let start = -4;
+    let stop = -start;
+    let step = 0.5;
+    let scale = 0.5;
+    let sensitivity = [0.002, 0.002];
+    let rotation = [0, -1, 0];
+    const draw_paths = false;
+    let id = 'three_d_vibes';
+    let svg = d3.select('#' + id)
+        .append('svg')
+        .attr("viewBox", [0, 0, width, height]);
+
+    let points = [];
+
+    function f(x, y) {
+        // return 0;
+        return math.exp(-0.5 * (x * x + y * y));
+    }
+
+    for (let x = start; x <= stop; x += step) {
+        for (let y = start; y <= stop; y += step) {
+            points.push([x, y, f(x, y)]);
+        }
+    }
+
+    function rotX(theta) {
+        return math.transpose([
+            [1, 0, 0],
+            [0, math.cos(theta), -math.sin(theta)],
+            [0, math.sin(theta), math.cos(theta)]
+        ]);
+    }
+
+    function rotY(theta) {
+        return math.transpose([
+            [math.cos(theta), 0, -math.sin(theta)],
+            [0, 1, 0],
+            [math.sin(theta), 0, math.cos(theta)]
+        ]);
+    }
+
+    function rotZ(theta) {
+        return math.transpose([
+            [math.cos(theta), -math.sin(theta), 0],
+            [math.sin(theta), math.cos(theta), 0],
+            [0, 0, 1],
+        ]);
+    }
+
+
+    const projection = math.transpose([
+        [scale, 0, 0],
+        [0, scale, 0],
+        [0, 0, scale],
+    ]);
+
+    // Create an x-num_points for xy to pixel coordinates
+    xScale = d3.scaleLinear()
+        .domain([start, stop])
+        .range([margin.left, width - margin.right]);
+
+    // Create a y-num_points for xy to pixel coordinates
+    yScale = d3.scaleLinear()
+        .domain([start, stop])
+        .range([height - margin.bottom, margin.top]);
+
+    lineGen = d3.line()
+        .x(d => xScale(d.x))
+        .y(d => yScale(d.y));
+
+    svg.append('g').attr('class', 'lines');
+    svg.append('g').attr('class', 'points');
+    svg.append('g').attr('class', 'scale');
+
+    svg.call(d3.drag()
+        .on("start", dragStarted)
+        .on("drag", dragInProgress)
+        .on("end", dragEnded)
+    );
+    let mouseStart;
+    let mouseDelta;
+
+    function dragStarted(d) {
+        d3.select(this).attr("fill", "black");
+        mouseStart = [d3.event.x, d3.event.y];
+    }
+
+    function dragInProgress(d) {
+        d3.select(this).attr("fill", "grey");
+        mouseDelta = [d3.event.x - mouseStart[0], d3.event.y - mouseStart[1]];
+        updatePlot(svg, [
+            rotation[0] + mouseDelta[0] * sensitivity[0],
+            rotation[1] + mouseDelta[1] * sensitivity[1],
+            rotation[2]])
+    }
+
+    function dragEnded(d) {
+        d3.select(this).attr("fill", "white");
+        rotation[0] += mouseDelta[0] * sensitivity[0];
+        rotation[1] += mouseDelta[1] * sensitivity[1];
+    }
+
+
+    function updatePlot(svg, rotation) {
+        let extent_x = [
+            d3.min(points, (d) => d[0]),
+            d3.max(points, (d) => d[0])
+        ];
+        let extent_y = [
+            d3.min(points, (d) => d[1]),
+            d3.max(points, (d) => d[1])
+        ];
+        let extent_z = [
+            d3.min(points, (d) => d[2]),
+            d3.max(points, (d) => d[2])
+        ];
+        let poly_3d = [[
+            extent_x[0],
+            extent_y[0],
+            extent_z[0]
+        ], [
+            1,
+            extent_y[0],
+            extent_z[0]
+        ], [
+            extent_x[0],
+            extent_y[0],
+            extent_z[0]
+        ], [
+            extent_x[0],
+            1,
+            extent_z[0]
+        ], [
+            extent_x[0],
+            extent_y[0],
+            extent_z[0]
+        ],[
+            extent_x[0],
+            extent_y[0],
+            1
+        ],
+        ];
+
+
+        let poly = math.multiply(
+            poly_3d,
+            rotZ(rotation[0]),
+            rotX(rotation[1]),
+            projection
+        );
+        let poly_data = [[]];
+        for (let i = 0; i < poly.length; i++) {
+            poly_data[0].push({
+                x: poly[i][0],
+                y: poly[i][1],
+            })
+        }
+        let locs = math.multiply(
+            points,
+            rotZ(rotation[0]),
+            rotX(rotation[1]),
+            projection
+        );
+
+        let point_data = [];
+        for (let i = 0; i < locs.length; i++) {
+            point_data.push({
+                x: locs[i][0],
+                y: locs[i][1],
+                z: points[i][2],
+                depth: locs[i][2]
+            });
+        }
+        point_data = point_data.sort((a, b) => {
+            return (a.depth < b.depth) ? -1 : 1;
+        });
+        let min_r = d3.min(point_data, (d) => d.depth);
+        let max_r = d3.max(point_data, (d) => d.depth);
+
+        let min_z = d3.min(point_data, (d) => d.z);
+        let max_z = d3.max(point_data, (d) => d.z);
+        let colorScale = d3.scaleSequential()
+            .domain([min_z, max_z])
+            .interpolator(d3.interpolateViridis);
+
+        if (draw_paths) {
+            let num_rows = Math.ceil((stop - start) / step + 1);
+            let num_cols = Math.ceil((stop - start) / step + 1);
+            let lines = [];
+            for (let i = 0; i < num_rows + num_cols; i++) {
+                lines.push([]);
+            }
+            for (let i = 0; i < locs.length; i++) {
+                let r = i % num_rows;
+                let c = Math.floor(i / num_cols);
+                lines[c].push({
+                    x: locs[i][0],
+                    y: locs[i][1],
+                    z: points[i][2],
+                    depth: locs[i][2]
+                });
+                lines[num_rows + r].push({
+                    x: locs[i][0],
+                    y: locs[i][1],
+                    z: points[i][2],
+                    depth: locs[i][2]
+                })
+            }
+
+            let paths = svg.select('.lines').selectAll('path').data(lines);
+            paths.enter()
+                .append('svg:path')
+                .style('fill', 'none')
+                .style('stroke-width', 1)
+                .style('stroke', 'lightgrey')
+                .merge(paths)
+                .attr('d', d => lineGen(d));
+
+            paths.exit().remove();
+        }
+
+        // Join
+        let circles = svg.select('.points').selectAll('circle').data(point_data);
+        // Enter
+        circles.enter()
+            .append('circle')
+            .style('stroke', 'white')
+            .style('strokeWeight', 1)
+            .merge(circles)
+            .attr('cx', (d) => xScale(d.x))
+            .attr('cy', (d) => yScale(d.y))
+            .attr('r', (d) => scale * (6 + 2 * (d.depth - min_r) / (max_r - min_r)))
+            .style("fill", (d) => colorScale(d.z));
+        // Exit
+        circles.exit().remove();
+
+
+        console.log(poly_data.map((d) => d.map(d => [xScale(d.x), yScale(d.y)].join(","))));
+        let grid = svg.select('.scale').selectAll('polygon').data(poly_data);
+        grid.enter().append("polygon")
+            .attr("stroke", "black")
+            .attr("fill", "none")
+            .attr("stroke-width", 1)
+            .merge(grid)
+            .attr("points", d => d.map(d => [xScale(d.x), yScale(d.y)].join(",")).join(" "));
+        grid.exit().remove();
+    }
+
+    updatePlot(svg, rotation)
+
+
+</script>
+</body>

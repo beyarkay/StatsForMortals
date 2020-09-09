@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a05e489f-2b6a-47bd-b89a-a8be62dd4a34" name="Default Changelist" comment="" />
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="StatsForMortals" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/script.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="17" column="33" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="33" />
+              <folding>
+                <element signature="e#15#76#0" />
+                <element signature="e#94#125#0" />
+                <element signature="e#5048#5400#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/scratchpad.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="468">
+              <caret line="281" column="34" selection-start-line="281" selection-start-column="34" selection-end-line="281" selection-end-column="34" />
+              <folding>
+                <element signature="e#4825#6399#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>bui</find>
+      <find>selectA</find>
+      <find>updateG</find>
+      <find>identity</find>
+      <find>diagon</find>
+      <find>console.l</find>
+      <find>coloriz</find>
+      <find>svg</find>
+      <find>scale =</find>
+      <find>mu_x</find>
+      <find>xScale</find>
+      <find>push</find>
+      <find>0.5</find>
+      <find>graph_params.step</find>
+      <find>math</find>
+      <find>s</find>
+      <find>sin</find>
+      <find>counter</find>
+      <find>cos</find>
+      <find>-sin</find>
+      <find>chrom</find>
+      <find>chroma</find>
+      <find>color</find>
+      <find>scale</find>
+      <find>update</find>
+      <find>100</find>
+      <find>z</find>
+      <find>}</find>
+      <find>extent_x[1]</find>
+      <find>extent_z[1]</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>mu</replace>
+      <replace>exp_abs</replace>
+      <replace>document.getElementById(div_id).getElementById</replace>
+      <replace>format</replace>
+      <replace>d3.select('#' + div_id)</replace>
+      <replace>plot_cauchy</replace>
+      <replace>orangered</replace>
+      <replace>rebeccapurple</replace>
+      <replace>plot_exp_minus_x_2</replace>
+      <replace>label: '</replace>
+      <replace>label: ''</replace>
+      <replace>standard normal</replace>
+      <replace>distribution</replace>
+      <replace>step: 0.01,</replace>
+      <replace>step: 0.01</replace>
+      <replace>math.cos</replace>
+      <replace>math.sin</replace>
+      <replace>[math.sin</replace>
+      <replace>-math.sin</replace>
+      <replace>increment</replace>
+      <replace>r</replace>
+      <replace>]</replace>
+      <replace>0</replace>
+      <replace>1</replace>
+    </replaceStrings>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/scratchpad.html" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/data.csv" />
+        <option value="$PROJECT_DIR$/employees.csv" />
+        <option value="$PROJECT_DIR$/XYZ.csv" />
+        <option value="$PROJECT_DIR$/browseruse.csv" />
+        <option value="$PROJECT_DIR$/surface3d.js" />
+        <option value="$PROJECT_DIR$/d3-3d.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/archive_d3/intro.html" />
+        <option value="$PROJECT_DIR$/abs_val.html" />
+        <option value="$PROJECT_DIR$/intro2.html" />
+        <option value="$PROJECT_DIR$/intro.html" />
+        <option value="$PROJECT_DIR$/3_.html" />
+        <option value="$PROJECT_DIR$/4_.html" />
+        <option value="$PROJECT_DIR$/3_one_over.html" />
+        <option value="$PROJECT_DIR$/in_the_pipeline.html" />
+        <option value="$PROJECT_DIR$/5_derivatives.html" />
+        <option value="$PROJECT_DIR$/4_variance.html" />
+        <option value="$PROJECT_DIR$/update.sh" />
+        <option value="$PROJECT_DIR$/3_almost_there.html" />
+        <option value="$PROJECT_DIR$/2_exp_squared.html" />
+        <option value="$PROJECT_DIR$/1_k_times_exp.html" />
+        <option value="$PROJECT_DIR$/2_almost_there.html" />
+        <option value="$PROJECT_DIR$/styles.css" />
+        <option value="$PROJECT_DIR$/resources.md" />
+        <option value="$PROJECT_DIR$/docs.md" />
+        <option value="$PROJECT_DIR$/todos.txt" />
+        <option value="$PROJECT_DIR$/2_what_next.html" />
+        <option value="$PROJECT_DIR$/3_thats_it.html" />
+        <option value="$PROJECT_DIR$/4_feedback.html" />
+        <option value="$PROJECT_DIR$/1_really_big_really_fast.html" />
+        <option value="$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_unpkg.com_d3-3d_build_d3-3d.js" />
+        <option value="$PROJECT_DIR$/Tangle-0.1.0/TangleTemplate.html" />
+        <option value="$PROJECT_DIR$/script.js" />
+        <option value="$PROJECT_DIR$/0_intro.html" />
+        <option value="$PROJECT_DIR$/archive_plotly/index.html" />
+        <option value="$PROJECT_DIR$/scratchpad.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="824" />
+    <option name="height" value="877" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="StatsForMortals" type="b2602c69:ProjectViewProjectNode" />
+              <item name="StatsForMortals" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="StatsForMortals" type="b2602c69:ProjectViewProjectNode" />
+              <item name="StatsForMortals" type="462c0819:PsiDirectoryNode" />
+              <item name="archive_d3" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="StatsForMortals" type="b2602c69:ProjectViewProjectNode" />
+              <item name="StatsForMortals" type="462c0819:PsiDirectoryNode" />
+              <item name="archive_plotly" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/archive_d3" />
+      <recent name="$PROJECT_DIR$/archive_plotly" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="scratchpad.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/StatsForMortals/scratchpad.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.scratchpad.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a05e489f-2b6a-47bd-b89a-a8be62dd4a34" name="Default Changelist" comment="" />
+      <created>1593713498169</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1593713498169</updated>
+      <workItem from="1593713501399" duration="5763000" />
+      <workItem from="1593780368769" duration="11931000" />
+      <workItem from="1594377598263" duration="22754000" />
+      <workItem from="1594499389908" duration="115615000" />
+      <workItem from="1595092105282" duration="14994000" />
+      <workItem from="1595170974872" duration="1162000" />
+      <workItem from="1595694911110" duration="28563000" />
+      <workItem from="1595947482868" duration="287000" />
+      <workItem from="1598988748659" duration="3046000" />
+      <workItem from="1599059044924" duration="17957000" />
+      <workItem from="1599595326225" duration="5085000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="227157000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+      <is-preview-enabled value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <flatten-packages value="true" />
+      <is-autoscroll-to-source value="true" />
+      <is-preview-enabled value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="824" height="877" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49930266" visible="true" weight="0.25155666" />
+      <window_info id="Structure" order="1" sideWeight="0.5006974" side_tool="true" weight="0.2379518" />
+      <window_info id="Favorites" order="2" side_tool="true" weight="0.32897604" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32738853" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.23821656" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49891067" weight="0.38853502" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49782136" weight="0.056050956" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50217867" side_tool="true" weight="0.09808917" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10500352" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" weight="0.32897604" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32738853" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="TODO" order="6" visible="true" weight="0.3398533" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.14522293" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.3299363" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.sh" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/users.json" />
+    <entry file="file://$PROJECT_DIR$/XYZ.csv" />
+    <entry file="file://$PROJECT_DIR$/browseruse.csv" />
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="674" column="4" selection-start-line="674" selection-start-column="4" selection-end-line="674" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/d3-3d.js" />
+    <entry file="file://$PROJECT_DIR$/archive_d3/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abs_val.html" />
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/resources/html5-schema/svg11/svg-basic-structure.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="168" column="18" selection-start-line="168" selection-start-column="18" selection-end-line="168" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/in_the_pipeline.html" />
+    <entry file="file://$PROJECT_DIR$/archive_2_exp_squared.html" />
+    <entry file="file://$PROJECT_DIR$/archive_index.html" />
+    <entry file="file://$PROJECT_DIR$/3_variance.html" />
+    <entry file="file://$PROJECT_DIR$/4_derivatives.html" />
+    <entry file="file://$PROJECT_DIR$/docs.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="60">
+            <caret line="4" column="50" selection-start-line="4" selection-start-column="50" selection-end-line="4" selection-end-column="50" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4_feedback.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="7" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3_thats_it.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="93" column="66" selection-start-line="93" selection-start-column="66" selection-end-line="93" selection-end-column="66" />
+          <folding>
+            <element signature="n#head#0;n#!!top" />
+            <element signature="n#script#2;n#head#0;n#!!top" />
+            <element signature="n#link#0;n#head#0;n#!!top" />
+            <element signature="n#div#0;n#body#0;n#!!top" />
+            <element signature="n#div#0;n#div#0;n#body#0;n#!!top" />
+            <element signature="n#div#1;n#div#0;n#body#0;n#!!top" />
+            <element signature="n#div#2;n#div#0;n#body#0;n#!!top" />
+            <element signature="n#center#0;n#div#0;n#div#1;n#body#0;n#!!top" />
+            <element signature="n#a#0;n#center#0;n#div#0;n#div#1;n#body#0;n#!!top" />
+            <element signature="n#div#0;n#a#0;n#center#0;n#div#0;n#div#1;n#body#0;n#!!top" />
+            <element signature="n#div#0;n#div#0;n#a#0;n#center#0;n#div#0;n#div#1;n#body#0;n#!!top" />
+            <element signature="n#svg#0;n#div#0;n#div#0;n#a#0;n#center#0;n#div#0;n#div#1;n#body#0;n#!!top" />
+            <element signature="n#script#0;n#body#0;n#!!top" />
+            <element signature="e#3841#3934#0" />
+            <element signature="e#3963#4521#0" />
+            <element signature="e#4021#4261#0" />
+            <element signature="e#4302#4511#0" />
+            <element signature="e#4558#5674#0" />
+            <element signature="e#4572#5075#0" />
+            <element signature="e#4646#4911#0" />
+            <element signature="e#4668#4748#0" />
+            <element signature="e#4954#5003#0" />
+            <element signature="e#5077#5663#0" />
+            <element signature="e#5141#5323#0" />
+            <element signature="e#5362#5598#0" />
+            <element signature="e#5480#5529#0" />
+            <element signature="e#5535#5584#0" />
+            <element signature="e#5793#5886#0" />
+            <element signature="e#5915#6429#0" />
+            <element signature="e#5929#6169#0" />
+            <element signature="e#6210#6419#0" />
+            <element signature="e#6466#7589#0" />
+            <element signature="e#6480#6914#0" />
+            <element signature="e#6551#6750#0" />
+            <element signature="e#6793#6842#0" />
+            <element signature="e#6928#7578#0" />
+            <element signature="e#7000#7198#0" />
+            <element signature="e#7241#7501#0" />
+            <element signature="e#7363#7420#0" />
+            <element signature="e#7426#7483#0" />
+            <element signature="e#7716#7809#0" />
+            <element signature="e#7838#8382#0" />
+            <element signature="e#7852#7856#0" />
+            <element signature="e#8163#8372#0" />
+            <element signature="e#8419#9424#0" />
+            <element signature="e#8433#8741#0" />
+            <element signature="e#8504#8577#0" />
+            <element signature="e#8620#8669#0" />
+            <element signature="e#8755#9413#0" />
+            <element signature="e#8827#9025#0" />
+            <element signature="e#9068#9336#0" />
+            <element signature="e#9198#9255#0" />
+            <element signature="e#9261#9318#0" />
+            <element signature="e#9535#9628#0" />
+            <element signature="e#9657#10292#0" />
+            <element signature="e#9715#9919#0" />
+            <element signature="e#9921#10095#0" />
+            <element signature="e#10097#10282#0" />
+            <element signature="e#10329#11623#0" />
+            <element signature="e#10343#11032#0" />
+            <element signature="e#10410#10610#0" />
+            <element signature="e#10653#10928#0" />
+            <element signature="e#10705#10779#0" />
+            <element signature="e#11034#11612#0" />
+            <element signature="e#11098#11280#0" />
+            <element signature="e#11319#11547#0" />
+            <element signature="e#11429#11478#0" />
+            <element signature="e#11484#11533#0" />
+            <element signature="e#11744#11837#0" />
+            <element signature="e#11866#12351#0" />
+            <element signature="e#11880#12091#0" />
+            <element signature="e#12132#12341#0" />
+            <element signature="e#12388#13535#0" />
+            <element signature="e#12402#12934#0" />
+            <element signature="e#12474#12690#0" />
+            <element signature="e#12733#12782#0" />
+            <element signature="e#12936#13524#0" />
+            <element signature="e#13000#13182#0" />
+            <element signature="e#13221#13459#0" />
+            <element signature="e#13341#13390#0" />
+            <element signature="e#13396#13445#0" />
+            <element signature="e#13656#13749#0" />
+            <element signature="e#13778#14511#0" />
+            <element signature="e#13792#13796#0" />
+            <element signature="e#14040#14251#0" />
+            <element signature="e#14292#14501#0" />
+            <element signature="e#14548#15711#0" />
+            <element signature="e#14562#15110#0" />
+            <element signature="e#14634#14914#0" />
+            <element signature="e#14957#15006#0" />
+            <element signature="e#15112#15700#0" />
+            <element signature="e#15176#15358#0" />
+            <element signature="e#15397#15635#0" />
+            <element signature="e#15517#15566#0" />
+            <element signature="e#15572#15621#0" />
+            <element signature="e#15832#15925#0" />
+            <element signature="e#15993#16504#0" />
+            <element signature="e#16007#16494#0" />
+            <element signature="e#16084#16282#0" />
+            <element signature="e#16325#16374#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2_what_next.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="379" column="72" selection-start-line="379" selection-start-column="72" selection-end-line="379" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+          <folding>
+            <element signature="e#153#176#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/todos.txt" />
+    <entry file="file://$PROJECT_DIR$/archive_d3/script.js" />
+    <entry file="file://$PROJECT_DIR$/archive_d3/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="98" selection-start-line="98" selection-end-line="112" selection-end-column="5" />
+          <folding>
+            <element signature="n#head#0;n#html#0;n#!!top" />
+            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" />
+            <element signature="e#3075#3079#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/1_really_big_really_fast.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="618">
+          <caret line="300" column="35" lean-forward="true" selection-start-line="300" selection-start-column="35" selection-end-line="300" selection-end-column="35" />
+          <folding>
+            <marker date="1595764643791" expanded="false" signature="6183:8098" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_d3js.org_d3.v3.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="7944" column="2" selection-start-line="7944" selection-start-column="2" selection-end-line="7944" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tangle-0.1.0/TangleKit/mootools.js" />
+    <entry file="file://$PROJECT_DIR$/Tangle-0.1.0/TangleTemplate.html" />
+    <entry file="file://$PROJECT_DIR$/Tangle-0.1.0/Tangle.js" />
+    <entry file="file://$PROJECT_DIR$/Tangle-0.1.0/TangleKit/TangleKit.js" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_cdn.jsdelivr.net_npm_mathjax@3_es5_tex-mml-chtml.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1920">
+          <caret column="16234" selection-start-column="16234" selection-end-column="16234" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_cdn.mathjax.org_mathjax_latest_MathJax.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_cdnjs.cloudflare.com_ajax_libs_mathjs_3.3.0_math.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329160">
+          <caret line="21944" column="26" selection-start-line="21944" selection-start-column="26" selection-end-line="21944" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_d3js.org_d3-scale-chromatic.v1.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_unpkg.com_d3-3d_build_d3-3d.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="16" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_unpkg.com_mathjs_dist_math.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/http_cdn.jsdelivr.net_npm_mathjax@3_es5_tex-mml-chtml.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_d3js.org_d3.v5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="14167" selection-start-line="14167" selection-end-line="14167" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/archive_plotly/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="85" column="21" selection-start-line="85" selection-start-column="21" selection-end-line="85" selection-end-column="21" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/archive_d3/surface3d.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="98" column="10" lean-forward="true" selection-start-line="98" selection-start-column="10" selection-end-line="98" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/0_intro.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="34" column="43" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="43" />
+          <folding>
+            <element signature="n#script#3;n#head#0;n#!!top" />
+            <element signature="n#link#0;n#head#0;n#!!top" />
+            <element signature="n#div#0;n#body#0;n#!!top" />
+            <element signature="n#div#0;n#div#0;n#body#0;n#!!top" />
+            <element signature="n#div#1;n#div#0;n#body#0;n#!!top" />
+            <element signature="n#div#2;n#div#0;n#body#0;n#!!top" />
+            <element signature="n#ul#0;n#div#0;n#div#1;n#body#0;n#!!top" />
+            <element signature="n#li#3;n#ul#0;n#div#0;n#div#1;n#body#0;n#!!top" />
+            <marker date="1595947656888" expanded="true" signature="4880:6135" ph="..." />
+            <marker date="1595947656888" expanded="true" signature="6180:8561" ph="..." />
+            <marker date="1595947656888" expanded="true" signature="8600:9873" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="17" column="33" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="33" />
+          <folding>
+            <element signature="e#15#76#0" />
+            <element signature="e#94#125#0" />
+            <element signature="e#5048#5400#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/update.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="63" selection-start-line="1" selection-start-column="63" selection-end-line="1" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scratchpad.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="281" column="34" selection-start-line="281" selection-start-column="34" selection-end-line="281" selection-end-column="34" />
+          <folding>
+            <element signature="e#4825#6399#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

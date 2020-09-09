@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <title>Almost there</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <link rel="stylesheet"
+          href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+          integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="pure-g">
+    <div class="pure-u-1-5">
+        <a class="pure-button button-xsmall" href="1_really_big_really_fast.html">Back</a>
+    </div>
+    <div class="pure-u-3-5">
+        <div class="page-count">Page 3 of 4</div>
+    </div>
+    <div class="pure-u-1-5">
+        <a class="pure-button button-xsmall" href="3_thats_it.html">Next</a>
+    </div>
+</div>
+<div class="pure-g">
+    <div class="pure-u-1-1">
+        <h2>What next?</h2>
+        So far we've got a pretty good candidate for the normal distribution:
+        \[f(x) = e^{-x^2}\]
+        <div id="plot_exp_x_2"></div>
+        but it's not quite there yet. We can make it even better, and even easier
+        to work with. There are two more properties we want this curve to have:
+        <ul>
+            <li>We want the deviation of the standard normal curve to be equal to 1.
+                <details>
+                    <summary>Why?</summary>
+                    The Standard Normal Distribution is just an agreed upon way of doing things,
+                    and making the deviation equal to 1 will make our equations simpler to work with.
+                    If you don't want a deviation of 1, then the General Normal Distribution
+                    is very similar to the Standard Normal Distribution, except you can choose
+                    what deviation you want. Play with the slider to see what effect changing
+                    the deviation of the General Normal Distribution has on the shape of the graph:
+                    <br>
+                </details>
+                <div id="plot_std_normal_dev"></div>
+            </li>
+            <li>And we want the area of the region
+                between the standard normal curve and the x-axis (coloured blue) to be equal to 1.
+                <details>
+                    <summary>Why?</summary>
+                    The function we're building is actually used to give us probabilities
+                    of something happening. For example, if we want to know the
+                    probability of \(x = 0\), then we plug \(x = 0\)
+                    into our function \(f(x)\) and we'd get an answer.
+                    Because our function represents all the possible probabilities,
+                    we can't have the probabilities adding up to anything other
+                    than 1. That would be like me handing you a coin and saying:
+                    "The probability of it coming up heads is 55%, and the
+                    probability of it coming up tails is 60%". It just doesn't make
+                    sense.
+                    <br>
+                </details>
+                <div id="std_norm_area"></div>
+            </li>
+        </ul>
+
+        <h3>Okay, but how do we get there?</h3>
+        Let's introduce some new variables to play with. Call them \(a\) and \(b\),
+        and they can fit into our equation like this:
+        \[f(x) = a \cdot e^{b \cdot x^2}\]
+        Fiddle with \(a\) and \(b\) to see how they change the shape of the graph.
+        <div id="plot_a_b"></div>
+        <details>
+            <summary>Why does \(a\) only go down to \(0\)?</summary>
+            The curve we're building (\(f(x)\)) is meant to give us probabilities,
+            you can't have negative valued probabilities. Having negative probabilities
+            would be like having a coin with a -30% chance of coming up heads
+            (which doesn't make much sense, does it?).
+            So we need \(f(x) > 0 \implies a \cdot e^{b \cdot x^2} > 0 \implies a > 0\)
+            <br>
+            <br>
+        </details>
+        <details>
+            <summary>Why does \(b\) only go up to \(0\)?</summary>
+            We don't bother with values of \(b > 0 \) because then we
+            loose the smooth hill shape.
+            <br>
+            <br>
+        </details>
+
+        \(a\) multiplies the entire graph of \(e^{bx^2}\), and acts
+        a bit like as if you took \(e^{bx^2}\) and stretched it up or down a lot.
+        <br>
+        \(b\) is a bit more funky, and looks like it's controlling the deviation
+        of the graph (that's the little blue line at the bottom).
+        <h3>Finding values for \(a\) and \(b\)</h3>
+
+        Right now, we've got two variables (\(a\) and \(b\)), and
+        two properties that we want our curve to have:
+        <ul>
+            <li>The deviation of the curve must equal one</li>
+            <li>The area under the curve must also equal one</li>
+        </ul>
+        If you play with the sliders again, you'll see that \(a\)
+        changes <i>both</i> how spread out the curve is, and the area under the curve.
+        <div id="plot_a_b_duplicate"></div>
+
+        <br>Changing \(b\) also has an effect on both the area and the deviation.
+        <br>So we can't just figure out a value for \(a\) and then go figure out one
+        for \(b\), the two variables are interconnected, and we've got to solve for them
+        simultaneously.
+        <br>
+        <br>
+        Let's start with making sure the area under the curve is equal to 1. Mathematically
+        we can represent the area under the graph of \(f(x) = a \cdot e^{b \cdot x^2}\) like this:
+        \[
+        \text{Area} = \int_{-\infty}^{\infty} f(x) \,dx
+        = \int_{-\infty}^{\infty} a \cdot e^{b \cdot x^2} \,dx
+        \]
+        And then let's colour this area in blue:
+        <div id="plot_a_b_area"></div>
+        Since we want the area to equal 1,
+        and we want to find values for \(a\) and \(b\)
+        that make sure this is true, let's rearrange the equation a bit:
+        \[\text{Area} = 1 = \int_{-\infty}^{\infty} a \cdot e^{b \cdot x^2} \,dx \]
+        \[\frac 1 a = \int_{-\infty}^{\infty} e^{b \cdot x^2} \,dx \]
+
+        This is a <i>bit</i> simpler. If we can find the value of
+        \(\int_{-\infty}^{\infty} e^{b \cdot x^2} \,dx\) (the area under the curve of
+        \(e^{b \cdot x^2}\)) then we'll have found the value of \(a\). Simple. Right?
+        <br>Kinda. The working out is pretty standard, but you need to mess around with
+        circles and double integrals to actually figure it out.
+        If you were to go through it, you'd find that:
+        \[
+        \int_{-\infty}^{\infty} e^{b \cdot x^2} \,dx
+        = \sqrt{-\frac {\pi} b}
+        = \sqrt{\frac {\pi} {\lvert b \rvert}}
+        \]
+        <details>
+            <summary>But... I wanna mess around with circles and double integrals</summary>
+            You're persistent, aren't you? Fair enough. The piece of insight is to notice:
+            <ol>
+                <li>\(e^x \cdot e^y = e^{x + y}\)</li>
+                <li>The substitution \(r^2 = x^2 + y^2\) is
+                    sometimes useful when integrating.
+                </li>
+                <li>We <i>might</i> be able to combine the two to get something like
+                    \[e^{x^{2}} \cdot e^{y^{2}} = e^{x^{2} + y^{2}} = e^{r^2}\]
+                    which at least <i>looks</i> less daunting.
+                </li>
+            </ol>
+            So, let's multiply the integral by itself and
+            try to do the substitution, remembering that \(b < 0\):
+            \[
+            \int_{-\infty}^{\infty} e^{b \cdot x^2} \,dx
+            \cdot \int_{-\infty}^{\infty} e^{b \cdot y^2} \,dy
+            \]\[
+            \begin{align}
+            & = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} e^{b \cdot x^2} \cdot e^{b \cdot y^2} \,dx\,dy\\
+            & = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} e^{b \left(x^2 + y^2 \right)} \,dx\,dy\\
+            & \text{let } r^2 = x^2 + y^2\\
+            & \text{and } x = r\cos(\theta)\\
+            & \text{and } y = r\sin(\theta)\\
+            & \therefore \,dx\,dy = r\,dr\,d\theta\\
+            & \text{also, } \, 0 \le \theta \le 2\pi, 0 < r < \infty\\
+            & = \int_{0}^{2\pi} \int_{0}^{\infty} e^{b \cdot r^2 } \cdot r \,dr\,d\theta\\
+            & = \int_{0}^{2\pi} \left[ \frac 1 {2b} \cdot e^{b \cdot r^2 } \right]_{0}^{\infty} \,d\theta\\
+            & = \int_{0}^{2\pi} \frac 1 {2b} \left[ e^{b \cdot {\infty}^2} - e^{b \cdot 0^2} \right] \,d\theta\\
+            &\text{(recall that b < 0)}\\
+            & = \frac 1 {2b} \int_{0}^{2\pi} \left[ 0 - 1 \right] \,d\theta\\
+            & = -\frac 1 {2b} \int_{0}^{2\pi} 1 \,d\theta\\
+            & = -\frac 1 {2b} \left[ \theta \right]_{0}^{2\pi}\\
+            & = -\frac 1 {2b} \left[ 2\pi - 0 \right]\\
+            & = -\frac 1 {2b} 2\pi \\
+            & = -\frac \pi {b} \\
+            & = \frac \pi {\lvert b \rvert} \\
+            \end{align}
+            \]
+            So, if we just look at the start and end of the working out above:
+            \[\int_{-\infty}^{\infty} e^{b \cdot x^2} \,dx
+            \cdot \int_{-\infty}^{\infty} e^{b \cdot y^2} \,dy
+            = \frac \pi {\lvert b \rvert} \\
+            \]\[
+            \iff\\
+            \]\[
+            \int_{-\infty}^{\infty} e^{b \cdot x^2} \,dx
+            = \sqrt{\frac \pi {\lvert b \rvert}} \\
+            \]
+            And we're done.
+            <br>
+        </details>
+
+        So, now that we know the value of \(\int_{-\infty}^{\infty} e^{b \cdot x^2} \,dx\),
+        we can figure out what \(a\) is:
+
+        \[
+        \frac 1 a = \int_{-\infty}^{\infty} e^{b \cdot x^2} \,dx = \sqrt{\frac {\pi} {\lvert b \rvert}} \\
+        \]\[
+        \implies \\
+        a = \frac 1 {\sqrt{\frac {\pi} {\lvert b \rvert}}} = {\left( \frac {\lvert b \rvert} {\pi} \right)}^{\frac 1 2}
+        \]
+
+        And then we can find \(b\) in terms of \(a\):
+        \[
+        b = -\pi a^2 \qquad (\text{recall that } b < 0)
+        \]
+        <details>
+            <summary>Wait, how did you get \(b = -\pi a^2\)?</summary>
+            \[
+            \begin{align}
+            a & = \frac 1 {\sqrt{\frac {\pi} {\lvert b \rvert}}}\\
+            {\left( \frac 1 a \right) }^2 & = \frac {\pi} {\lvert b \rvert}\\
+            \frac 1 {a^2} & = \frac \pi {-b} \\
+            &\text{(Cross multiply)}\\
+            b & = -\pi a^2\\
+            \end{align}
+            \]
+        </details>
+
+        So now we can rewrite our formula for the normal curve
+        entirely in terms of \(a\)
+        \[f(x) = a \cdot e^{-\pi {\left(ax\right)}^2}\]
+        (note that this version of our formula makes absolutely sure that the
+        blue region is equal to 1)
+        <div id="plot_ito_a"></div>
+        Or, since \(a = \frac 1 {\sqrt{\frac {\pi} {\lvert b \rvert}}}\),
+        we can rewrite the equation in terms of b (this
+        version <i>also</i> makes absolutely sure that the blue region is equal to 1):
+
+        \[f(x) = \frac 1 {\sqrt{\frac {\pi} {\lvert b \rvert}}} \cdot e^{b \cdot x^2}\]
+
+        <div id="plot_ito_b"></div>
+
+        <h3>Okay sure, but we <i>still</i> don't
+            have an actual value for \(a\) <i>or</i> \(b\)</h3>
+        We're getting there, I promise. We can use our second constraint (that the deviation of the curve
+        must equal 1) to figure out concrete values for \(a\) and \(b\). Unfortunately this is a
+        lot tricker to describe without knowing the equations for Expectation and
+        Variance.
+        <details>
+            <summary>But I <i>do</i> know the equations for
+                Expectation and Variance!
+            </summary>
+            Are you sitting down? This one requires
+            <ul>
+                <li>A clever integration by parts</li>
+                <li>L'hospital's rule</li>
+                <li>The formula we figured out above:
+                    \[
+                    \int_{-\infty}^{\infty} e^{b \cdot x^2} \,dx
+                    = \sqrt{\frac \pi {-b}} \\
+                    \]
+                </li>
+            </ul>
+            So let's begin:
+            \[
+            \begin{align}
+            \Bbb{V} \left[ X \right]
+            & =\Bbb{E} \left[ { \left( X - \Bbb{E} [X] \right) }^2 \right] -
+            {\left( \Bbb{E} [ X ] \right)}^2 \\
+            & =\Bbb{E} \left[ { \left( X - 0 \right) }^2 \right] -
+            {\left( 0 \right)}^2 \\
+            & =\Bbb{E} \left[ {X}^2 \right] \\
+            & = \int^{\infty}_{-\infty}x^2 \cdot f_X(x) \,dx \\
+            & = \int^{\infty}_{-\infty}x^2 \cdot \frac 1 {\sqrt{\frac \pi {\lvert b \rvert}}} \cdot e^{bx^2} \,dx \\
+            & = \frac 1 {\sqrt{\frac \pi {-b}}} \int^{\infty}_{-\infty} x^2 \cdot e^{bx^2} \,dx \\
+            & \text{Integration by parts:} \\
+            & \qquad f = x \quad g = \frac 1 {2b} \cdot e^{bx^2} \\
+            & \qquad f' = 1 \quad g' = x \cdot e^{bx^2} \\
+            & = \frac 1 {\sqrt{\frac \pi {-b}}} \left( \left[ x \cdot \frac 1 {2b} \cdot e^{bx^2} \right
+            ]^{\infty}_{-\infty} - \int^{\infty}_{-\infty} \frac 1 {2b} \cdot e^{bx^2} \,dx \right) \\
+            & = \frac 1 {\sqrt{\frac \pi {-b}}} \left( \frac 1 {2b} \cdot \left[ \frac x {e^{-bx^2}} \right
+            ]^{\infty}_{-\infty} - \frac 1 {2b} \cdot \int^{\infty}_{-\infty}e^{bx^2} \,dx \right) \\
+            & \text{(Using L'Hospital's rule on the first term)}\\
+            & = \frac 1 {\sqrt{\frac \pi {-b}}} \left( \frac 1 {2b} \cdot \left[ \frac 1 {-2bx \cdot e^{-bx^2}} \right
+            ]^{\infty}_{-\infty} - \frac 1 {2b} \cdot \int^{\infty}_{-\infty}e^{bx^2} \,dx \right) \\
+            & \text{(Using our trick with the double integrals on the second term)}\\
+            & = \frac 1 {\sqrt{\frac \pi {-b}}} \left( \frac 1 {2b} \cdot \left[ \frac 1 {-2bx \cdot e^{-bx^2}} \right
+            ]^{\infty}_{-\infty} - \frac 1 {2b} \cdot \sqrt{\frac \pi {-b}}\right) \\
+            & = \frac 1 {\sqrt{\frac \pi {-b}}} \cdot \frac 1 {2b} \cdot \left( \left[ \frac 1 {-2bx \cdot e^{-bx^2}}
+            \right ]^{\infty}_{-\infty} - \sqrt{\frac \pi {-b}}\right) \\
+            & = \frac 1 {\sqrt{\frac \pi {-b}}} \cdot \frac 1 {2b} \cdot \left( \left[ 0 - 0 \right ] - \sqrt{\frac \pi
+            {-b}}\right) \\
+            & = \frac 1 {\sqrt{\frac \pi {-b}}} \cdot \frac 1 {2b} \cdot \left( - \sqrt{\frac \pi {-b}}\right) \\
+            & = \frac {- \sqrt{\frac \pi {-b}}} {\sqrt{\frac \pi {-b}}} \cdot \frac 1 {2b} \\
+            & = - \frac 1 {2b} \\
+            \end{align}
+            \]
+            And there we have it! So in summary:
+            \[
+            \Bbb{V} \left[ X \right] = - \frac 1 {2b}
+            \]\[
+            \implies \text{Deviation} [X] = \sqrt{- \frac 1 {2b}}
+            \]
+
+
+        </details>
+
+        After much effort, you would find that:
+        \[
+        \text{Deviation of our curve} = \sqrt{- \frac 1 {2b}}
+        \]
+        And remembering that we need our curve to have a deviation of 1:
+        \[
+        - \frac 1 {2b} = 1^2
+        \]\[
+        - 2b = 1
+        \]\[
+        b = - \frac 1 2
+        \]
+        Which in turn means that we can calculate the value of \(a\):
+        \[
+        a = \frac 1 {\sqrt{\frac {\pi} {\lvert b \rvert}}}
+        = \frac 1 {\sqrt{\frac {\pi} {\lvert - \frac 1 2 \rvert}}}
+        = \frac 1 {\sqrt{\frac {\pi} {\frac 1 2 }}}
+        = \frac 1 {\sqrt{2\pi}}
+        \]
+
+        And so, at long last, we can write down the full equation for the
+        normal distribution:
+        \[
+        a = \frac 1 {\sqrt{2\pi}} \qquad b = - \frac 1 2 \\
+        \]\[
+        \begin{align}
+        f(x) & = a \cdot e^{b \cdot x^2} \\
+        f(x) & = \frac 1 {\sqrt{2\pi}} \cdot e^{- \frac 1 2 \cdot x^2} \\
+        \end{align}
+        \]
+        <details>
+            <summary>Intuition for \(a = \frac 1 {\sqrt{2\pi}}\)</summary>
+            Try moving the slider until you get
+            \(a \approx 0.3989 \approx \frac 1 {\sqrt{2\pi}} \) and
+            then making the normal curve visible.
+            \[f(x) = a \cdot e^{- \frac 1 2 \cdot x^2}\]
+            <div id="plot_change_a"></div>
+
+            Changing the value of \(a\) in the graph of
+            \(a \cdot e^{- \frac 1 2 \cdot x^2}\) has the effect
+            of changing the area of the graph.
+            <br><br>If \(a = 1\), then the area under the graph is
+            \( \sqrt{2\pi} \), but that's not what we want. If we divide the
+            value of \(a\) by \( \sqrt{2\pi} \), then we end up also dividing the
+            area under the graph by \( \sqrt{2\pi} \). This gives us an area of 1
+            when \(a = \frac 1 {\sqrt{2\pi}}\).
+        </details>
+        <details>
+            <summary>Intuition for \(b = -\frac 1 2\)</summary>
+            Try moving the slider for \(b\) until the deviation of the graph is 1 (i.e. when
+            the blue deviation line goes from -1 to 1):
+            \[f(x) = \frac 1 {\sqrt{2\pi}} \cdot e^{b \cdot x^2}\]
+            <div id="plot_change_b"></div>
+
+            Changing the value of \(b\) in the graph of
+            \( \frac 1 {\sqrt{2\pi}} \cdot e^{b \cdot x^2}\) has the effect
+            of changing its deviation. When \(b = -\frac 1 2\),
+            then the deviation is equal to 1 and we have ourselves the standard normal distribution.
+        </details>
+
+        <br>
+        We're Done! Almost. Everyone likes playing with the sliders, so the next page
+        tells the story visually, instead of with text.
+
+    <br>
+    <br>
+    </div>
+</div>
+<div class="pure-g">
+    <div class="pure-u-1-5">
+        <a class="pure-button button-xsmall" href="1_really_big_really_fast.html">Back</a>
+    </div>
+    <div class="pure-u-3-5">
+        <div class="page-count">Page 3 of 4</div>
+    </div>
+    <div class="pure-u-1-5">
+        <a class="pure-button button-xsmall" href="3_thats_it.html">Next</a>
+    </div>
+</div>
+<script type="module">
+
+    import {buildGraph} from "./script.js";
+
+
+    //plot_exp_x_2
+    buildGraph(
+        // div_id
+        'plot_exp_x_2',
+
+        // graph_params
+        {
+            xDomain: [-3, 3],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // {
+            //     key: 'k',
+            //     type: 'range',
+            //     min: 0.3,
+            //     max: 0.5,
+            //     step: 0.001,
+            //     value: 0.45,
+            //     label: 'k = ',
+            //     color: 'teal',
+            // }, // Use abs(x) instead of x
+            // {
+            //     key: 'show_normal',
+            //     type: 'checkbox',
+            //     checked: true,
+            //     label: 'Show the normal curve',
+            //     color: 'firebrick',
+            // }
+        ],
+        // function_params
+        [
+            // {
+            //     key: 'k_eq_point_four',
+            //     func: (x, params) => {
+            //         return Math.pow(params['plot_k_eq_point_four' + '_' + 'k'], Math.pow(x, 2));
+            //     },
+            //     calcOpacity: (params) => {
+            //         if ('plot_k_eq_point_four' + '_' + 'show_normal' in params && params['plot_k_eq_point_four' + '_' + 'show_normal']) {
+            //             return 0.5;
+            //         } else {
+            //             return 1;
+            //         }
+            //     },
+            //     color: 'teal',
+            //     label: 'k^{x^2}'
+            // },
+            {
+                key: 'exp_x_2',
+                func: (x, params) => {
+                    return Math.exp(-Math.pow(x, 2));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'teal',
+                label: ''
+            },
+        ]
+    );
+
+
+    //plot_std_normal_dev
+    buildGraph(
+        // div_id
+        'plot_std_normal_dev',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 1],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // slider for k in e ^{k * |x|}
+            {
+                key: 'deviation',
+                type: 'range',
+                min: 0.01,
+                max: 5,
+                step: 0.01,
+                value: 1,
+                color: 'teal',
+                label: 'deviation = '
+            }, // Use abs(x) instead of x
+            // {
+            //     key: 'use_abs',
+            //     type: 'checkbox',
+            //     checked: false,
+            //     label: 'Use abs(x) instead of x'
+            // }
+        ],
+        // function_params
+        [
+            {
+                key: 'std_norm',
+                func: (x, params) => {
+                    let mu = 0;
+                    let sigma = 1;
+                    if (typeof params['plot_std_normal_dev' + '_' + 'deviation'] !== 'undefined') {
+                        sigma = params['plot_std_normal_dev' + '_' + 'deviation'];
+                    }
+                    return Math.exp((-0.5 * Math.pow((x - mu) / sigma, 2))) / (sigma * Math.sqrt(2 * Math.PI));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'teal',
+                label: '',
+                plot_var: true
+            }
+        ]
+    );
+
+    //std_norm_area
+    buildGraph(
+        // div_id
+        'std_norm_area',
+
+        // graph_params
+        {
+            xDomain: [-3, 3],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [],
+        // function_params
+        [
+            {
+                key: 'std_norm_area',
+                func: (x, params) => {
+                    return Math.exp(-x * x);
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'teal',
+                fill: 'rgba(0, 128, 128, 0.4)',
+                label: ''
+            }
+        ]
+    );
+
+    //plot_a_b
+    buildGraph(
+        // div_id
+        'plot_a_b',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // slider for k in e ^{k * |x|}
+            {
+                key: 'a',
+                type: 'range',
+                min: 0,
+                max: 4,
+                step: 0.05,
+                value: 1,
+                label: 'a = '
+            }, {
+            key: 'b',
+            type: 'range',
+            min: -10,
+            max: -0.01,
+            step: 0.05,
+            value: -1,
+            label: 'b = '
+        },
+        ],
+        // function_params
+        [
+            {
+                key: 'a_b',
+                func: (x, params) => {
+                    let a = params['plot_a_b' + '_' + 'a'];
+                    let b = params['plot_a_b' + '_' + 'b'];
+                    return a * Math.exp(b * Math.pow(x, 2));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                    // if (div_id + '_' + 'show' in params && params[div_id + '_' + 'show']) {
+                    //     return 1;
+                    // } else {
+                    //     return 0;
+                    // }
+                },
+                color: 'teal',
+                label: '',
+                plot_var: true,
+            }
+        ]
+    );
+
+    //plot_a_b_duplicate
+    buildGraph(
+        // div_id
+        'plot_a_b_duplicate',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // slider for k in e ^{k * |x|}
+            {
+                key: 'a',
+                type: 'range',
+                min: 0,
+                max: 2,
+                step: 0.05,
+                value: 1,
+                label: 'a = '
+            }, {
+            key: 'b',
+            type: 'range',
+            min: -3,
+            max: -0.01,
+            step: 0.05,
+            value: -1,
+            label: 'b = '
+        },
+        ],
+        // function_params
+        [
+            {
+                key: 'a_b',
+                func: (x, params) => {
+                    let a = params['plot_a_b_duplicate' + '_' + 'a'];
+                    let b = params['plot_a_b_duplicate' + '_' + 'b'];
+                    return a * Math.exp(b * Math.pow(x, 2));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                    // if (div_id + '_' + 'show' in params && params[div_id + '_' + 'show']) {
+                    //     return 1;
+                    // } else {
+                    //     return 0;
+                    // }
+                },
+                fill: 'rgba(0, 128, 128, 0.4)',
+                color: 'teal',
+                label: '',
+                plot_var: true,
+
+            }
+        ]
+    );
+
+    //plot_a_b_area
+    buildGraph(
+        // div_id
+        'plot_a_b_area',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // slider for k in e ^{k * |x|}
+            {
+                key: 'a',
+                type: 'range',
+                min: 0,
+                max: 2,
+                step: 0.05,
+                value: 1,
+                label: 'a = '
+            }, {
+            key: 'b',
+            type: 'range',
+            min: -3,
+            max: -0.25,
+            step: 0.05,
+            value: -1,
+            label: 'b = '
+        },
+        ],
+        // function_params
+        [
+            {
+                key: 'a_b',
+                func: (x, params) => {
+                    let a = params['plot_a_b_area' + '_' + 'a'];
+                    let b = params['plot_a_b_area' + '_' + 'b'];
+                    return a * Math.exp(b * Math.pow(x, 2));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                    // if (div_id + '_' + 'show' in params && params[div_id + '_' + 'show']) {
+                    //     return 1;
+                    // } else {
+                    //     return 0;
+                    // }
+                },
+                color: 'teal',
+                fill: 'rgba(0, 128, 128, 0.4)',
+                label: ''
+            }
+        ]
+    );
+
+    //plot_ito_a
+    buildGraph(
+        // div_id
+        'plot_ito_a',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            {
+                key: 'a',
+                type: 'range',
+                min: 0.05,
+                max: 2,
+                step: 0.05,
+                value: 1,
+                label: 'a = '
+            },
+            //     {
+            //     key: 'b',
+            //     type: 'range',
+            //     min: -3,
+            //     max: 0,
+            //     step: 0.05,
+            //     value: -1,
+            //     label: 'b = '
+            // },
+        ],
+        // function_params
+        [
+            {
+                key: 'ito_a',
+                func: (x, params) => {
+                    let a = params['plot_ito_a' + '_' + 'a'];
+                    let b = params['plot_ito_a' + '_' + 'b'];
+                    return a * Math.exp(-Math.PI * Math.pow(a * x, 2));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                    // if (div_id + '_' + 'show' in params && params[div_id + '_' + 'show']) {
+                    //     return 1;
+                    // } else {
+                    //     return 0;
+                    // }
+                },
+                color: 'teal',
+                fill: 'rgba(0, 128, 128, 0.4)',
+                label: '',
+                plot_var: true,
+            }
+        ]
+    );
+
+    //plot_ito_b
+    buildGraph(
+        // div_id
+        'plot_ito_b',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            {
+                key: 'b',
+                type: 'range',
+                min: -5,
+                max: -0.05,
+                step: 0.05,
+                value: -1,
+                label: 'b = '
+            },
+            //     {
+            //     key: 'b',
+            //     type: 'range',
+            //     min: -3,
+            //     max: 0,
+            //     step: 0.05,
+            //     value: -1,
+            //     label: 'b = '
+            // },
+        ],
+        // function_params
+        [
+            {
+                key: 'ito_b',
+                func: (x, params) => {
+                    let a = params['plot_ito_b' + '_' + 'a'];
+                    let b = params['plot_ito_b' + '_' + 'b'];
+                    return Math.exp(b * x * x) / Math.sqrt(Math.PI / Math.abs(b));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                    // if (div_id + '_' + 'show' in params && params[div_id + '_' + 'show']) {
+                    //     return 1;
+                    // } else {
+                    //     return 0;
+                    // }
+                },
+                color: 'teal',
+                fill: 'rgba(0, 128, 128, 0.4)',
+                label: '',
+                plot_var: true,
+
+            }
+        ]
+    );
+
+    //plot_change_a
+    buildGraph(
+        // div_id
+        'plot_change_a',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            {
+                key: 'a',
+                type: 'range',
+                min: 0.2,
+                max: 1.1,
+                step: 0.005,
+                value: 0.5,
+                label: 'a = '
+            }, // Use abs(x) instead of x
+            {
+                key: 'show_normal',
+                type: 'checkbox',
+                checked: false,
+                label: 'Show the normal curve',
+                color: 'firebrick',
+            }
+        ],
+        // function_params
+        [
+            {
+                key: 'change_a',
+                func: (x, params) => {
+                    let a = params['plot_change_a' + '_' + 'a'];
+                    // let b = params['plot_change_a' + '_' + 'b'];
+                    return a * Math.exp(-0.5 * Math.pow(x, 2));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'teal',
+                fill: 'rgba(0, 128, 128, 0.4)',
+                label: '',
+                plot_var: true,
+            }, {
+            key: 'std_norm',
+            func: (x, params) => {
+                return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
+            },
+            calcOpacity: (params) => {
+                if ('plot_change_a' + '_' + 'show_normal' in params && params['plot_change_a' + '_' + 'show_normal']) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            },
+            color: 'firebrick',
+            label: ''
+        },
+        ]
+    );
+
+    //plot_change_b
+    buildGraph(
+        // div_id
+        'plot_change_b',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 2],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // {
+            //     key: 'a',
+            //     type: 'range',
+            //     min: 0.05,
+            //     max: 2,
+            //     step: 0.05,
+            //     value: 1,
+            //     label: 'a = '
+            // },
+            {
+                key: 'b',
+                type: 'range',
+                min: -3,
+                max: -0.15,
+                step: 0.001,
+                value: -1,
+                label: 'b = '
+            }, // Use abs(x) instead of x
+            {
+                key: 'show_normal',
+                type: 'checkbox',
+                checked: false,
+                label: 'Show the normal curve',
+                color: 'firebrick',
+            }
+        ],
+        // function_params
+        [
+            {
+                key: 'change_b',
+                func: (x, params) => {
+                    // let a = params['plot_change_b' + '_' + 'a'];
+                    let b = params['plot_change_b' + '_' + 'b'];
+                    let quotient = Math.sqrt(2 * Math.PI);
+
+                    return Math.exp(b * Math.pow(x, 2)) / quotient;
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'teal',
+                label: '',
+                plot_var: true
+            }, {
+            key: 'std_norm',
+            func: (x, params) => {
+                let mu = 0;
+                let sigma = 1;
+                return Math.exp((-0.5 * Math.pow((x - mu) / sigma, 2))) / (sigma * Math.sqrt(2 * Math.PI));
+            },
+            calcOpacity: (params) => {
+                if ('plot_change_b' + '_' + 'show_normal' in params && params['plot_change_b' + '_' + 'show_normal']) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            },
+            color: 'firebrick',
+            label: ''
+        },
+        ]
+    );
+
+</script>
+</body>

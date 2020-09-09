@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <title>The intuition behind the Standard Normal Distribution</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+          integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="pure-g">
+    <div class="pure-u-1-5">
+        <a class="pure-button button-xsmall pure-button-disabled" href="#">Back</a>
+    </div>
+    <div class="pure-u-3-5">
+        <div class="page-count">Page 1 of 4</div>
+    </div>
+    <div class="pure-u-1-5">
+        <a class="pure-button button-xsmall" href="1_really_big_really_fast.html">Next</a>
+    </div>
+</div>
+<div class="pure-g">
+    <div class="pure-u-1-1">
+        <h2>The intuition behind the Standard Normal Distribution</h2>
+        Most undergraduates are given a very quick introduction to the Normal Distribution before being
+        bombarded with the many ways in which it is useful. This explanation is intended for students
+        who know that the graph of the Standard Normal Distribution has a sort of hill shape:
+        <div id="plot_std_normal"></div>
+        And that the Standard Normal Distribution is defined by this equation:
+        \[f(x) = \frac 1 {\sqrt{2 \pi}} e^{-\frac 1 2 x^2}\]
+
+        But they've found themselves asking questions like:
+        <ul>
+            <li>Where does \(\frac 1 {\sqrt{2 \pi}}\) come from?</li>
+            <li>Why is there a \(-\frac 1 2\) in \(e^{-\frac 1 2 x^2}\)?</li>
+            <li>Why is there a \(x^2\) in \(e^{-\frac 1 2 x^2}\)?</li>
+            <li>How (or maybe even why) do those pieces together to make <i>this</i>?:
+                \[f(x) = \frac 1 {\sqrt{2 \pi}} e^{-\frac 1 2 x^2}\]
+            </li>
+        </ul>
+        We'll first define some terms, and get an intuition for what effect those terms have
+        on the shape of a graph. Then we'll slowly put together all the pieces of the Standard
+        Normal Distribution, discovering how they slot into place along the way.
+        <br>
+        With that said, let's get started:
+        <h3>Deviation</h3>
+
+        Deviation is a measure how spread out a graph is, and you can have two curves
+        that look very different, but still have the same deviation. <br>Move the slider below to
+        change the deviation of the blue and red curves.
+        <div id="plot_std_normal_dev"></div>
+        Below the x-axis is a blue line and red line, representing the deviation of the
+        blue curve and red curve respectively. The longer these lines are,
+        the more spread out the blue and red graphs are, and the larger the deviations of those graphs.
+        <br>
+        <br>
+        These lines are a more visual way of seeing the deviation of
+        the curves respectively. Soon, we'll start manipulating different curves,
+        and will want to be  able to tell what effect our manipulations have on the deviation of
+        these different curves.
+
+        <h3>What's so 'standard' about the Standard Normal Distribution?</h3>
+        There are two properties about the standard normal distribution that
+        are important:
+        <ul>
+            <li>The deviation of the standard normal distribution is 1.
+            </li>
+            <li>The area between the graph and the x-axis is 1.
+            </li>
+        </ul>
+
+        So, keeping the shape of the standard normal distribution in mind:
+        <div id="std_norm_area"></div>
+        Let's pretend that we really want to find
+        an equation that'll give us that shape,
+        but we've also got no clue about the equation for the Standard Normal Distribution:
+        \[f(x) = \text{¯\_(ツ)_/¯}\]
+        <div class="pure-g">
+            <div class="pure-u-1-5">
+                <a class="pure-button button-xsmall pure-button-disabled" href="#">Back</a>
+            </div>
+            <div class="pure-u-3-5">
+                <div class="page-count">Page 1 of 4</div>
+            </div>
+            <div class="pure-u-1-5">
+                <a class="pure-button button-xsmall" href="1_really_big_really_fast.html">Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module">
+
+    import {buildGraph} from "./script.js";
+
+    //plot_std_normal
+    buildGraph(
+        // div_id
+        'plot_std_normal',
+
+        // graph_params
+        {
+            xDomain: [-3, 3],
+            yDomain: [0, 0.5],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // slider for k in e ^{k * |x|}
+            // {
+            //     key: 'k',
+            //     type: 'range',
+            //     min: -3,
+            //     max: 3,
+            //     step: 0.01,
+            //     value: 1,
+            //     label: 'k = '
+            // }, // Use abs(x) instead of x
+            // {
+            //     key: 'use_abs',
+            //     type: 'checkbox',
+            //     checked: false,
+            //     label: 'Use abs(x) instead of x'
+            // }
+        ],
+        // function_params
+        [
+            {
+                key: 'std_norm',
+                func: (x, params) => {
+                    let mu = 0;
+                    let sigma = 1;
+                    return Math.exp((-0.5 * Math.pow(x - mu, 2)) / sigma) / (sigma * Math.sqrt(2 * Math.PI));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'teal',
+                label: '',
+                plot_var: false
+            }
+        ]
+    );
+
+    //plot_std_normal_dev
+    buildGraph(
+        // div_id
+        'plot_std_normal_dev',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 1],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // slider for k in e ^{k * |x|}
+            {
+                key: 'deviation',
+                type: 'range',
+                min: 0.01,
+                max: 3.5,
+                step: 0.01,
+                value: 1,
+                color: 'black',
+                label: ' deviation='
+            }, // Use abs(x) instead of x
+            // {
+            //     key: 'use_abs',
+            //     type: 'checkbox',
+            //     checked: false,
+            //     label: 'Use abs(x) instead of x'
+            // }
+        ],
+        // function_params
+        [
+            {
+                key: 'std_norm',
+                func: (x, params) => {
+                    let mu = 0;
+                    let sigma = 1;
+                    if (typeof params['plot_std_normal_dev' + '_' + 'deviation'] !== 'undefined') {
+                        sigma = params['plot_std_normal_dev' + '_' + 'deviation'];
+                    }
+                    return Math.exp((-0.5 * Math.pow((x - mu) / sigma, 2))) / (sigma * Math.sqrt(2 * Math.PI));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'teal',
+                label: '',
+                plot_var: true
+            },
+            {
+                key: 'laplace',
+                func: (x, params) => {
+                    // Laplace distro takes two params, location (loc) and num_points.
+                    let loc = 0;
+                    let scale = 1 / Math.sqrt(2); // var[X] = 2*num_points^2 => var[X] = 1 iff num_points = 1/sqrt(2)
+                    if (typeof params['plot_std_normal_dev' + '_' + 'deviation'] !== 'undefined') {
+                        let deviation = params['plot_std_normal_dev' + '_' + 'deviation'];
+                        scale = deviation / Math.sqrt(2);
+                    }
+                    return Math.exp(-Math.abs((x - loc) / scale)) / (2 * scale)
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'firebrick',
+                label: '',
+                plot_var: true
+            }
+        ]
+    );
+
+    //std_norm_area
+    buildGraph(
+        // div_id
+        'std_norm_area',
+
+        // graph_params
+        {
+            xDomain: [-5, 5],
+            yDomain: [0, 1],
+            step: 0.01
+        },
+
+        // inputs
+        [
+            // slider for k in e ^{k * |x|}
+            // {
+            //     key: 'k',
+            //     type: 'range',
+            //     min: -3,
+            //     max: 3,
+            //     step: 0.01,
+            //     value: 1,
+            //     label: 'k = '
+            // }, // Use abs(x) instead of x
+            // {
+            //     key: 'use_abs',
+            //     type: 'checkbox',
+            //     checked: false,
+            //     label: 'Use abs(x) instead of x'
+            // }
+        ],
+        // function_params
+        [
+            {
+                key: 'std_norm_area',
+                func: (x, params) => {
+                    let mu = 0;
+                    let sigma = 1;
+                    return Math.exp((-0.5 * Math.pow((x - mu) / sigma, 2))) / (sigma * Math.sqrt(2 * Math.PI));
+                },
+                calcOpacity: (params) => {
+                    return 1;
+                },
+                color: 'teal',
+                fill: 'rgba(0, 128, 128, 0.4)',
+                label: ''
+            }
+        ]
+    );
+
+
+</script>
+</body>
