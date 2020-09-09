@@ -3,9 +3,11 @@ A collection of websites designed to look great and explain statistics things vi
 and a lot of inspiration was taken from other [explorable explanations](https://explorabl.es)
 
 ### Intuition behind the Standard Normal Distribution
-[link](https://people.cs.uct.ac.za/~KNXBOY001/StatsForMortals/0_intro.html)
-[!ab](ab.gif)
-This
+[This](https://people.cs.uct.ac.za/~KNXBOY001/StatsForMortals/0_intro.html) website explains
+the standard normal distribution (ie the 'bell curve') using *lots* of graphs, sliders, and graphs with sliders.
+It is made to be *fun*, but to still explain why the formula for the normal distribution includes pi, square
+roots or *e*.
+![ab](ab.gif)
 
 
 ### Intuition behind the Multivariate Normal Distribution
