@@ -12,6 +12,10 @@
 * Bivariate Normal?
     * Either with a wiremesh, or with density dots
 
+Covariance: 
+* Treat covariance as a literal addition of loads of drawn out rectangles on a plot
+* https://stats.stackexchange.com/questions/18058/how-would-you-explain-covariance-to-someone-who-understands-only-the-mean/18200#18200
+
 Distros
 * Gamma
     * Exponential
