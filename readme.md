@@ -12,5 +12,6 @@ roots or *e*.
 
 
 ### Intuition behind the Multivariate Normal Distribution
-Still a work in progress, but the most recent versions are uploaded [here](https://people.cs.uct.ac.za/~KNXBOY001/StatsForMortals/scratchpad.html)
+Still a work in progress, but the most recent versions are uploaded 
+[here](https://people.cs.uct.ac.za/~KNXBOY001/StatsForMortals/scratchpad.html)
 

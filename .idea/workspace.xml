@@ -4,6 +4,7 @@
     <list default="true" id="a05e489f-2b6a-47bd-b89a-a8be62dd4a34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scratchpad.html" beforeDir="false" afterPath="$PROJECT_DIR$/scratchpad.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,8 +23,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="17" column="33" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="33" />
+            <state relative-caret-position="90">
+              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
               <folding>
                 <element signature="e#15#76#0" />
                 <element signature="e#94#125#0" />
@@ -33,26 +34,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scratchpad.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="438">
-              <caret line="279" column="28" selection-start-line="279" selection-start-column="28" selection-end-line="279" selection-end-column="28" />
+            <state relative-caret-position="321">
+              <caret line="310" column="102" selection-start-line="310" selection-start-column="102" selection-end-line="310" selection-end-column="102" />
               <folding>
-                <element signature="e#4825#6399#0" />
+                <element signature="e#9621#10831#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/readme.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="FIRST">
-              <first_editor relative-caret-position="150">
-                <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-              </first_editor>
-              <second_editor />
             </state>
           </provider>
         </entry>
@@ -205,15 +194,15 @@
         <option value="$PROJECT_DIR$/script.js" />
         <option value="$PROJECT_DIR$/0_intro.html" />
         <option value="$PROJECT_DIR$/archive_plotly/index.html" />
-        <option value="$PROJECT_DIR$/scratchpad.html" />
         <option value="$PROJECT_DIR$/docs.md" />
         <option value="$PROJECT_DIR$/readme.md" />
+        <option value="$PROJECT_DIR$/scratchpad.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1272" />
+    <option name="width" value="1345" />
     <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -224,6 +213,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -245,7 +235,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -311,12 +300,13 @@
       <workItem from="1595947482868" duration="287000" />
       <workItem from="1598988748659" duration="3046000" />
       <workItem from="1599059044924" duration="17957000" />
-      <workItem from="1599595326225" duration="6801000" />
+      <workItem from="1599595326225" duration="15287000" />
+      <workItem from="1600021514211" duration="1690000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="228873000" />
+    <option name="totallyTimeSpent" value="239049000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -331,21 +321,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1272" height="877" extended-state="0" />
+    <frame x="0" y="23" width="1345" height="877" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49930266" visible="true" weight="0.33093524" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49930266" visible="true" weight="0.14652568" />
       <window_info id="Structure" order="1" sideWeight="0.5006974" side_tool="true" weight="0.2379518" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32897604" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32738853" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.23821656" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.18216561" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49891067" weight="0.38853502" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49782136" visible="true" weight="0.37579617" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49782136" weight="0.15286624" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50217867" side_tool="true" weight="0.09808917" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -377,6 +368,22 @@
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.sh" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="JavascriptDebugType">
+        <watch expression="buffer[j]" language="HTML" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="watch">
+      <expression>
+        <expression-string>buffer[j]</expression-string>
+        <language-id>HTML</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/users.json" />
@@ -612,9 +619,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/http_cdn.jsdelivr.net_npm_mathjax@3_es5_tex-mml-chtml.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/http_cdn.jsdelivr.net_npm_mathjax@3_es5_tex-mml-chtml.js" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/javascript/extLibs/http_d3js.org_d3.v5.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -639,10 +644,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/update.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="63" selection-start-line="1" selection-start-column="63" selection-end-line="1" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="225">
+            <caret line="15" selection-start-line="15" selection-end-line="15" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="17" column="33" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="33" />
+        <state relative-caret-position="90">
+          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
           <folding>
             <element signature="e#15#76#0" />
             <element signature="e#94#125#0" />
@@ -651,20 +673,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/update.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="63" selection-start-line="1" selection-start-column="63" selection-end-line="1" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scratchpad.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="279" column="28" selection-start-line="279" selection-start-column="28" selection-end-line="279" selection-end-column="28" />
-          <folding>
-            <element signature="e#4825#6399#0" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/docs.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="225">
+            <caret line="15" column="83" selection-start-line="15" selection-start-column="83" selection-end-line="15" selection-end-column="83" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
@@ -688,23 +703,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="225">
-            <caret line="15" column="83" selection-start-line="15" selection-start-column="83" selection-end-line="15" selection-end-column="83" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/readme.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="150">
-            <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/scratchpad.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="310" column="102" selection-start-line="310" selection-start-column="102" selection-end-line="310" selection-end-column="102" />
+          <folding>
+            <element signature="e#9621#10831#0" />
+          </folding>
         </state>
       </provider>
     </entry>

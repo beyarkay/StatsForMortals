@@ -27,6 +27,14 @@
 <div id="three_d_vibes"></div>
 
 <script>
+    // TODO limit rotation so the model can't be turned completely upsidedown, thereby inverting the drag controls
+    // TODO every point / line / polygon / text object must:
+    //      * have a depth
+    //      * be thereafter sorted depth-wise, in order to make sure objects appear in front of each other properly
+    // TODO Allow sliders to update the graph
+    // TODO encapsulate the whole thing in a method
+    // TODO change the sensitivity if the device is mobile / depending on the screen width
+
     const margin = {
         top: 10,
         right: 10,
@@ -39,23 +47,25 @@
     };
     const width = (window.innerWidth - padding.left - padding.right - margin.left - margin.right);
     const height = width;
-    let start = -4;
+    let start = -2;
     let stop = -start;
-    let step = 0.5;
+    let step = 0.2;
     let scale = 0.5;
     let sensitivity = [0.002, 0.002];
-    let rotation = [0, -1, 0];
+    let rotation = [-Math.PI * 3 / 8, -Math.PI * 3 / 8, 0];
     const draw_paths = false;
     let id = 'three_d_vibes';
     let svg = d3.select('#' + id)
         .append('svg')
         .attr("viewBox", [0, 0, width, height]);
 
+
+    // ----------========== Build up the point cloud ==========----------
     let points = [];
 
     function f(x, y) {
-        // return 0;
-        return math.exp(-0.5 * (x * x + y * y));
+        // return math.exp(-0.5 * (x * x + y * y));
+        return math.exp(Math.sin(x * x + y * y));
     }
 
     for (let x = start; x <= stop; x += step) {
@@ -64,6 +74,45 @@
         }
     }
 
+    // ----------========== Build up the bounding box ==========----------
+    let extents = [[
+        Math.floor(d3.min(points, (d) => d[0])),
+        Math.ceil(d3.max(points, (d) => d[0]))
+    ], [
+        Math.floor(d3.min(points, (d) => d[1])),
+        Math.ceil(d3.max(points, (d) => d[1]))
+    ], [
+        Math.floor(d3.min(points, (d) => d[2])),
+        Math.ceil(d3.max(points, (d) => d[2]))
+    ]];
+
+    // top or bottom surface
+    let bottom = [
+        [extents[0][0], extents[1][0], extents[2][0]],
+        [extents[0][0], extents[1][1], extents[2][0]],
+        [extents[0][1], extents[1][1], extents[2][0]],
+        [extents[0][1], extents[1][0], extents[2][0]],
+        [extents[0][0], extents[1][0], extents[2][0]],
+    ];
+    // left_or_right surface
+    let right = [
+        [extents[0][1], extents[1][0], extents[2][0]],
+        [extents[0][1], extents[1][1], extents[2][0]],
+        [extents[0][1], extents[1][1], extents[2][1]],
+        [extents[0][1], extents[1][0], extents[2][1]],
+        [extents[0][1], extents[1][0], extents[2][0]],
+    ];
+    // front_or_back surface
+    let back = [
+        [extents[0][0], extents[1][0], extents[2][0]],
+        [extents[0][1], extents[1][0], extents[2][0]],
+        [extents[0][1], extents[1][0], extents[2][1]],
+        [extents[0][0], extents[1][0], extents[2][1]],
+        [extents[0][0], extents[1][0], extents[2][0]],
+    ];
+    let polygons = [bottom, right, back];
+
+    // ----------========== Define rotation & projection matrices ==========----------
     function rotX(theta) {
         return math.transpose([
             [1, 0, 0],
@@ -88,13 +137,13 @@
         ]);
     }
 
-
     const projection = math.transpose([
         [scale, 0, 0],
         [0, scale, 0],
         [0, 0, scale],
     ]);
 
+    // ----------========== Create the Scales, line generator,  ==========----------
     // Create an x-num_points for xy to pixel coordinates
     xScale = d3.scaleLinear()
         .domain([start, stop])
@@ -109,17 +158,22 @@
         .x(d => xScale(d.x))
         .y(d => yScale(d.y));
 
+    // ----------========== Set up the SVG groups ==========----------
+
+
     svg.append('g').attr('class', 'lines');
     svg.append('g').attr('class', 'points');
     svg.append('g').attr('class', 'scale');
 
+
+    // ----------========== Make the SVG draggable ==========----------
+    let mouseStart;
+    let mouseDelta;
     svg.call(d3.drag()
         .on("start", dragStarted)
         .on("drag", dragInProgress)
         .on("end", dragEnded)
     );
-    let mouseStart;
-    let mouseDelta;
 
     function dragStarted(d) {
         d3.select(this).attr("fill", "black");
@@ -141,87 +195,56 @@
         rotation[1] += mouseDelta[1] * sensitivity[1];
     }
 
+    // ----------========== Things to do on a plot update ==========----------
 
     function updatePlot(svg, rotation) {
-        let extent_x = [
-            d3.min(points, (d) => d[0]),
-            d3.max(points, (d) => d[0])
-        ];
-        let extent_y = [
-            d3.min(points, (d) => d[1]),
-            d3.max(points, (d) => d[1])
-        ];
-        let extent_z = [
-            d3.min(points, (d) => d[2]),
-            d3.max(points, (d) => d[2])
-        ];
-        let poly_3d = [[
-            extent_x[0],
-            extent_y[0],
-            extent_z[0]
-        ], [
-            1,
-            extent_y[0],
-            extent_z[0]
-        ], [
-            extent_x[0],
-            extent_y[0],
-            extent_z[0]
-        ], [
-            extent_x[0],
-            1,
-            extent_z[0]
-        ], [
-            extent_x[0],
-            extent_y[0],
-            extent_z[0]
-        ],[
-            extent_x[0],
-            extent_y[0],
-            1
-        ],
-        ];
+        // 1. Build up the z buffer
+        let z_buffer = [];
 
-
-        let poly = math.multiply(
-            poly_3d,
-            rotZ(rotation[0]),
-            rotX(rotation[1]),
-            projection
-        );
-        let poly_data = [[]];
-        for (let i = 0; i < poly.length; i++) {
-            poly_data[0].push({
-                x: poly[i][0],
-                y: poly[i][1],
+        for (let i = 0; i < points.length; i++) {
+            z_buffer.push({
+                type: 'circle',
+                group: 'points',
+                xyz: points[i]
             })
         }
-        let locs = math.multiply(
-            points,
+        for (let poly_idx = 0; poly_idx < polygons.length; poly_idx++) {
+            for (let draw_idx = 0; draw_idx < polygons[poly_idx].length; draw_idx++) {
+                z_buffer.push({
+                    type: 'poly',
+                    group: 'scale',
+                    poly_index: poly_idx,
+                    draw_index: draw_idx,
+                    xyz: polygons[poly_idx][draw_idx]
+                })
+            }
+        }
+        // 2. Extract the coords from the z-buffer and do the transformations on them
+        let projected = math.multiply(
+            z_buffer.map(d => {
+                return d.xyz;
+            }),
             rotZ(rotation[0]),
             rotX(rotation[1]),
             projection
         );
-
-        let point_data = [];
-        for (let i = 0; i < locs.length; i++) {
-            point_data.push({
-                x: locs[i][0],
-                y: locs[i][1],
-                z: points[i][2],
-                depth: locs[i][2]
-            });
-        }
-        point_data = point_data.sort((a, b) => {
-            return (a.depth < b.depth) ? -1 : 1;
+        // 3. Add the transformed coords back into the z-buffer
+        z_buffer.forEach((d, i) => {
+            d.projected = projected[i];
+            d.x = d.projected[0];
+            d.y = d.projected[1];
+            d.z = d.projected[2];
+            return d;
         });
-        let min_r = d3.min(point_data, (d) => d.depth);
-        let max_r = d3.max(point_data, (d) => d.depth);
 
-        let min_z = d3.min(point_data, (d) => d.z);
-        let max_z = d3.max(point_data, (d) => d.z);
+        // 4. Sort the z-buffer
+        z_buffer.sort((a, b) => a.projected[2] < b.projected[2] ? -1 : 1);
+
+
+        // TODO finish pushing the z-buffer through the rest of the pipeline.
+
         let colorScale = d3.scaleSequential()
-            .domain([min_z, max_z])
+            .domain(d3.extent(z_buffer, (d) => d.xyz[2]))
             .interpolator(d3.interpolateViridis);
 
         if (draw_paths) {
@@ -260,31 +283,82 @@
             paths.exit().remove();
         }
 
-        // Join
-        let circles = svg.select('.points').selectAll('circle').data(point_data);
-        // Enter
-        circles.enter()
-            .append('circle')
-            .style('stroke', 'white')
-            .style('strokeWeight', 1)
-            .merge(circles)
-            .attr('cx', (d) => xScale(d.x))
-            .attr('cy', (d) => yScale(d.y))
-            .attr('r', (d) => scale * (6 + 2 * (d.depth - min_r) / (max_r - min_r)))
-            .style("fill", (d) => colorScale(d.z));
-        // Exit
-        circles.exit().remove();
 
+        let buffer = [];
+        // Remove the old groups, they can't be re-used.
+        svg.select('.points').selectAll('g').remove();
+        svg.select('.scale').selectAll('g').remove();
+        for (let i = 0; i < z_buffer.length; i++) {
+            if ((buffer.length > 0 && z_buffer[i].type !== buffer[buffer.length - 1].type) || i === z_buffer.length - 1) {
+                if (buffer[0].type === 'circle') {
+                    // Join
+                    let circles = svg.select('.points').append('g').selectAll('circle').data(buffer);
+                    // Enter
+                    circles.enter()
+                        .append('circle')
+                        .style('stroke', 'white')
+                        .style('strokeWeight', 1)
+                        .attr('r', scale * 6)
+                        .merge(circles)
+                        .attr('cx', (d) => xScale(d.x))
+                        .attr('cy', (d) => yScale(d.y))
+                        // .attr('r', (d) => scale * (6 + 2 * (d.depth - min_r) / (max_r - min_r)))
+                        .style("fill", (d) => colorScale(d.xyz[2]));
+                    // Exit
+                    circles.exit().remove();
 
-        console.log(poly_data.map((d) => d.map(d => [xScale(d.x), yScale(d.y)].join(","))));
-        let grid = svg.select('.scale').selectAll('polygon').data(poly_data);
-        grid.enter().append("polygon")
-            .attr("stroke", "black")
-            .attr("fill", "none")
-            .attr("stroke-width", 1)
-            .merge(grid)
-            .attr("points", d => d.map(d => [xScale(d.x), yScale(d.y)].join(",")).join(" "));
-        grid.exit().remove();
+                } else if (buffer[0].type === 'poly') {
+                    // TODO doesn't take into account one poly with vertices at different z-depths !!!
+                    let data = [];
+                    let number_of_polys = d3.max(buffer, (d) => d.poly_index);
+                    for (let k = 0; k <= number_of_polys; k++) {
+                        data.push([]);
+                    }
+                    for (let j = 0; j < buffer.length; j++) {
+                        data[buffer[j].poly_index].push(buffer[j]);
+                    }
+                    console.log(data);
+                    console.log("----");
+                    // TODO now that every polygon is in data, they still need to be ordered properly
+                    let polygons = svg.select('.scale').append('g').selectAll('polygon').data(data);
+                    polygons.enter().append("polygon")
+                        .attr("stroke", "black")
+                        .attr("fill", "rgba(0,234,255,0.47)")
+                        .attr("stroke-width", 1)
+                        .merge(polygons)
+                        .attr("points", d => d.map(d => [xScale(d.x), yScale(d.y)].join(",")).join(" "));
+                    polygons.exit().remove();
+                }
+                buffer = []
+            }
+            buffer.push(z_buffer[i])
+        }
+
+        // // Join
+        // let circles = svg.select('.points').selectAll('circle').data(point_data);
+        // // Enter
+        // circles.enter()
+        //     .append('circle')
+        //     .style('stroke', 'white')
+        //     .style('strokeWeight', 1)
+        //     .merge(circles)
+        //     .attr('cx', (d) => xScale(d.x))
+        //     .attr('cy', (d) => yScale(d.y))
+        //     .attr('r', (d) => scale * (6 + 2 * (d.depth - min_r) / (max_r - min_r)))
+        //     .style("fill", (d) => colorScale(d.z));
+        // // Exit
+        // circles.exit().remove();
+        //
+        //
+        // // console.log(poly_data.map((d) => d.map(d => [xScale(d.x), yScale(d.y)].join(","))));
+        // let grid = svg.select('.scale').selectAll('polygon').data(poly_data);
+        // grid.enter().append("polygon")
+        //     .attr("stroke", "black")
+        //     .attr("fill", "none")
+        //     .attr("stroke-width", 1)
+        //     .merge(grid)
+        //     .attr("points", d => d.map(d => [xScale(d.x), yScale(d.y)].join(",")).join(" "));
+        // grid.exit().remove();
     }
 
     updatePlot(svg, rotation)
