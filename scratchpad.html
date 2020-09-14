@@ -28,12 +28,8 @@
 
 <script>
     // TODO limit rotation so the model can't be turned completely upsidedown, thereby inverting the drag controls
-    // TODO every point / line / polygon / text object must:
-    //      * have a depth
-    //      * be thereafter sorted depth-wise, in order to make sure objects appear in front of each other properly
     // TODO Allow sliders to update the graph
     // TODO encapsulate the whole thing in a method
-    // TODO change the sensitivity if the device is mobile / depending on the screen width
 
     const margin = {
         top: 10,
@@ -210,12 +206,10 @@
             [
                 corners_buffer[0],
                 corners_buffer[4]
-            ],
-            [
+            ], [
                 corners_buffer[0],
                 corners_buffer[2]
-            ],
-            [
+            ], [
                 corners_buffer[0],
                 corners_buffer[1]
             ],
@@ -226,7 +220,10 @@
                     corners_buffer[i],
                     corners_buffer[i + 4]
                 ];
-                if (Math.abs(line[0].y) >= Math.abs(scale_lines[2][0].y) && line[0].z < scale_lines[2][0].z) {
+                // scale_lines.push(line);
+
+                if (line[0].xyz[2] <= scale_lines[0][0].xyz[2]
+                    && (line[0].y + line[1].y) < (scale_lines[0][0].y + scale_lines[0][1].y)) {
                     scale_lines[0] = line.slice(); // copy line into z_line
                 }
             }
@@ -235,7 +232,10 @@
                     corners_buffer[i],
                     corners_buffer[i + 2]
                 ];
-                if (Math.abs(line[0].y) >= Math.abs(scale_lines[2][0].y) && line[0].z > scale_lines[2][0].z) {
+                // scale_lines.push(line);
+                let line_y_avg = (line[0].y + line[1].y) / 2;
+                let scale_line_y_avg = (scale_lines[0][0].y + scale_lines[0][1].y) / 2;
+                if (line[0].xyz[2] <= scale_lines[0][0].xyz[2] && line_y_avg < scale_line_y_avg) {
                     scale_lines[1] = line.slice(); // copy line into z_line
                 }
             }
@@ -244,6 +244,7 @@
                     corners_buffer[i],
                     corners_buffer[i + 1]
                 ];
+                // scale_lines.push(line);
                 if (Math.abs(line[0].x) >= Math.abs(scale_lines[2][0].x) && line[0].z > scale_lines[2][0].z) {
                     scale_lines[2] = line.slice(); // copy line into z_line
                 }
@@ -255,24 +256,17 @@
         let ticks = [];
 
         for (let i = 0; i < 3; i++) {
-            console.log(i);
-            // let min = [
-            //     Math.min(scale_lines[i][0].x, scale_lines[i][1].x),
-            //     Math.min(scale_lines[i][0].y, scale_lines[i][1].y),
-            //     Math.min(scale_lines[i][0].z, scale_lines[i][1].z)
-            // ];
             let range = [
                 (scale_lines[i][0].x - scale_lines[i][1].x),
                 (scale_lines[i][0].y - scale_lines[i][1].y),
                 (scale_lines[i][0].z - scale_lines[i][1].z)
             ];
-            console.log(range);
             for (let value = extents[i].min; value <= extents[i].max; value++) {
                 let fraction = (value - extents[i].min) / (extents[i].max - extents[i].min);
                 ticks.push({
-                    x: scale_lines[i][1].x + (1-fraction) * range[0], // lerp from min to max
-                    y: scale_lines[i][1].y + (1-fraction) * range[1], // lerp from min to max
-                    z: scale_lines[i][1].z + (1-fraction) * range[2], // lerp from min to max
+                    x: scale_lines[i][1].x + (1 - fraction) * range[0], // lerp from min to max
+                    y: scale_lines[i][1].y + (1 - fraction) * range[1], // lerp from min to max
+                    z: scale_lines[i][1].z + (1 - fraction) * range[2], // lerp from min to max
                     xyz: [scale_lines[i][0][0], scale_lines[i][0][1], value]
                 })
             }
@@ -289,8 +283,8 @@
         lines.enter()
             .append('line')
             .style('strokeWeight', 1)
+            .style('stroke', 'black')
             .merge(lines)
-            .style('stroke', (d, i) => scaleScale(i))
             .attr('x1', (d) => xScale(d[0].x))
             .attr('y1', (d) => yScale(d[0].y))
             .attr('x2', (d) => xScale(d[1].x))
@@ -304,6 +298,7 @@
         // Enter
         text_ticks.enter()
             .append('text')
+            .attr("font-size", 15 * scale)
             .merge(text_ticks)
             .text((d) => d.xyz[2])
             .attr('x', (d) => xScale(d.x))

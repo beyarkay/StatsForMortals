@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a05e489f-2b6a-47bd-b89a-a8be62dd4a34" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scratchpad.html" beforeDir="false" afterPath="$PROJECT_DIR$/scratchpad.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -35,18 +36,15 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scratchpad.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="264" column="16" selection-start-line="264" selection-start-column="16" selection-end-line="264" selection-end-column="16" />
-              <caret line="265" column="16" selection-start-line="265" selection-start-column="16" selection-end-line="265" selection-end-column="16" />
-              <caret line="266" column="16" selection-start-line="266" selection-start-column="16" selection-end-line="266" selection-end-column="16" />
+            <state relative-caret-position="195">
+              <caret line="286" selection-start-line="286" selection-end-line="286" />
               <folding>
-                <element signature="e#6622#6927#0" />
                 <element signature="e#9621#10831#0" />
-                <marker date="1600085364673" expanded="false" signature="2718:3029" ph="..." />
-                <marker date="1600085364673" expanded="false" signature="4143:4869" ph="..." />
-                <marker date="1600085364673" expanded="true" signature="4957:5385" ph="..." />
-                <marker date="1600085364673" expanded="false" signature="5459:5591" ph="..." />
-                <marker date="1600085364673" expanded="true" signature="5665:6350" ph="..." />
+                <marker date="1600088826179" expanded="false" signature="2423:2734" ph="..." />
+                <marker date="1600088826179" expanded="false" signature="3848:4574" ph="..." />
+                <marker date="1600088826179" expanded="true" signature="4662:5090" ph="..." />
+                <marker date="1600088826179" expanded="false" signature="5164:5296" ph="..." />
+                <marker date="1600088826179" expanded="true" signature="5370:6055" ph="..." />
               </folding>
             </state>
           </provider>
@@ -210,7 +208,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="930" />
+    <option name="width" value="911" />
     <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -309,12 +307,12 @@
       <workItem from="1598988748659" duration="3046000" />
       <workItem from="1599059044924" duration="17957000" />
       <workItem from="1599595326225" duration="15287000" />
-      <workItem from="1600021514211" duration="11664000" />
+      <workItem from="1600021514211" duration="13447000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="249023000" />
+    <option name="totallyTimeSpent" value="250806000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -329,10 +327,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="930" height="877" extended-state="0" />
+    <frame x="0" y="23" width="911" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49930266" visible="true" weight="0.21342134" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49930266" weight="0.21342134" />
       <window_info id="Structure" order="1" sideWeight="0.5006974" side_tool="true" weight="0.2379518" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32897604" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -344,14 +342,14 @@
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49891067" weight="0.38853502" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49782136" weight="0.23694268" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49782136" visible="true" weight="0.23694268" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50217867" side_tool="true" weight="0.09808917" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49930266" visible="true" weight="0.14652568" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49930266" visible="true" weight="0.21342134" />
       <window_info id="Structure" order="1" sideWeight="0.5006974" side_tool="true" weight="0.2379518" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32897604" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -713,18 +711,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scratchpad.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="264" column="16" selection-start-line="264" selection-start-column="16" selection-end-line="264" selection-end-column="16" />
-          <caret line="265" column="16" selection-start-line="265" selection-start-column="16" selection-end-line="265" selection-end-column="16" />
-          <caret line="266" column="16" selection-start-line="266" selection-start-column="16" selection-end-line="266" selection-end-column="16" />
+        <state relative-caret-position="195">
+          <caret line="286" selection-start-line="286" selection-end-line="286" />
           <folding>
-            <element signature="e#6622#6927#0" />
             <element signature="e#9621#10831#0" />
-            <marker date="1600085364673" expanded="false" signature="2718:3029" ph="..." />
-            <marker date="1600085364673" expanded="false" signature="4143:4869" ph="..." />
-            <marker date="1600085364673" expanded="true" signature="4957:5385" ph="..." />
-            <marker date="1600085364673" expanded="false" signature="5459:5591" ph="..." />
-            <marker date="1600085364673" expanded="true" signature="5665:6350" ph="..." />
+            <marker date="1600088826179" expanded="false" signature="2423:2734" ph="..." />
+            <marker date="1600088826179" expanded="false" signature="3848:4574" ph="..." />
+            <marker date="1600088826179" expanded="true" signature="4662:5090" ph="..." />
+            <marker date="1600088826179" expanded="false" signature="5164:5296" ph="..." />
+            <marker date="1600088826179" expanded="true" signature="5370:6055" ph="..." />
           </folding>
         </state>
       </provider>
