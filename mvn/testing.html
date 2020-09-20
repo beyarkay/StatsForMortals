@@ -65,6 +65,10 @@
     ];
     let surface;
 
+    export function makeSurface(canvas_id){
+
+    }
+
 
     function std_norm_distro(u, v, target) {
         // Normalise u, v to the extrema
@@ -176,11 +180,18 @@
         let z_axis_line = new THREE.Mesh(geometry_z_axis, material_basic);
         scene.add(z_axis_line);
 
+        // Add a line for the y-axis. Ticks come later
+        const geometry_y_axis = new THREE.BoxBufferGeometry(
+            0.05, (extrema[1][1] - extrema[1][0]), 0.05,
+            1, 1, 1);
+        // geometry_y_axis.translate(extrema[0][1], 0, 0);
+        let y_axis_line = new THREE.Mesh(geometry_y_axis, material_basic);
+        scene.add(y_axis_line);
+
         // Setup the ability to render text
         let loader = new THREE.FontLoader();
         loader.load('cmu_serif_italic.json', font => {
             const font_size = 0.4;
-
 
             for (let x = Math.ceil(extrema[0][0]); x <= Math.floor(extrema[0][1]); x++) {
                 // Add x-tick text
@@ -204,39 +215,62 @@
                     0.05, 0.2, 0.05,
                     1, 1, 1);
                 geometry_x_tick.translate(x, 0, extrema[2][1]);
-
-
                 let meshTick = new THREE.Mesh(geometry_x_tick, material_basic);
                 scene.add(meshTick);
-
-
             }
-            // // Add z-ticks
-            // for (let z = Math.ceil(extrema[2][0]); z <= Math.floor(extrema[2][1]); z++) {
-            //     let geometry = new THREE.TextGeometry(z.toString(), {
-            //         font: font,
-            //         size: font_size,
-            //         height: 0.005,
-            //         curveSegments: 12,
-            //         bevelEnabled: false,
-            //     });
-            //     geometry.rotateY(Math.PI * 0.5);
-            //     geometry.translate(extrema[0][1], -font_size, z);
-            //
-            //     let material = new THREE.MeshBasicMaterial({
-            //         color: "#000000",
-            //         side: THREE.DoubleSide,
-            //     });
-            //     let textGeo = new THREE.Mesh(geometry, material);
-            //     scene.add(textGeo);
-            // }
+            for (let z = Math.ceil(extrema[2][0]); z <= Math.floor(extrema[2][1]); z++) {
+                // Add x-tick text
+                const tick_text = z === 0 ? 'z' : z.toString();
+                let geometry_text = new THREE.TextGeometry(tick_text, {
+                    font: font,
+                    size: font_size,
+                    height: 0.005,
+                    curveSegments: 12,
+                    bevelEnabled: false,
+                });
+                geometry_text.rotateY(Math.PI * 0.5);
+                geometry_text.computeBoundingBox();
+                let range = geometry_text.boundingBox.max.z - geometry_text.boundingBox.min.z;
+                geometry_text.translate(extrema[0][1], -(font_size + 0.1), z + (range * 1.1) * 0.5);
+                let textGeo = new THREE.Mesh(geometry_text, material_basic);
+                scene.add(textGeo);
+
+                // Add z-tick dots
+                const geometry_z_tick = new THREE.BoxBufferGeometry(
+                    0.05, 0.2, 0.05,
+                    1, 1, 1);
+                geometry_z_tick.translate(extrema[2][1], 0, z);
+                let meshTick = new THREE.Mesh(geometry_z_tick, material_basic);
+                scene.add(meshTick);
+            }
+            for (let y = Math.ceil(extrema[1][0]); y <= Math.floor(extrema[1][1]); y++) {
+                // Add x-tick text
+                const tick_text = y === 0 ? 'y' : y.toString();
+                let geometry_text = new THREE.TextGeometry(tick_text, {
+                    font: font,
+                    size: font_size * 0.5,
+                    height: 0.005,
+                    curveSegments: 12,
+                    bevelEnabled: false,
+                });
+                geometry_text.computeBoundingBox();
+                let text_width = geometry_text.boundingBox.max.x - geometry_text.boundingBox.min.x;
+                let text_height = geometry_text.boundingBox.max.y - geometry_text.boundingBox.min.y;
+                geometry_text.translate(text_width, y - 0.5 * (text_height * 0.8), 0);
+                let textGeo = new THREE.Mesh(geometry_text, material_basic);
+                scene.add(textGeo);
+
+                // Add z-tick bars
+                const geometry_y_tick = new THREE.BoxBufferGeometry(
+                    0.2, 0.05, 0.05,
+                    1, 1, 1);
+                geometry_y_tick.translate(0, y, 0);
+                let meshTick = new THREE.Mesh(geometry_y_tick, material_basic);
+                scene.add(meshTick);
+            }
 
 
         });
-
-
-        // Add z-ticks
-
 
         // Create a parametric surface for the plot
         const geometry = new THREE.ParametricGeometry(std_norm_distro, 25, 25);
