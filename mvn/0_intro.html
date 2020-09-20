@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <title>The intuition behind the Multivariate Normal Distribution</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <script src="https://unpkg.com/mathjs/dist/math.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+          integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="pure-g">
+    <div class="pure-u-1-5">
+        <a class="pure-button button-xsmall pure-button-disabled" href="#">Back</a>
+    </div>
+    <div class="pure-u-3-5">
+        <div class="page-count">Page 1 of ?</div>
+    </div>
+    <div class="pure-u-1-5">
+        <a class="pure-button button-xsmall" href="1.html">Next</a>
+    </div>
+</div>
+<div class="pure-g">
+    <div class="pure-u-1-1">
+        <h2>The intuition behind the Multivariate Normal Distribution</h2>
+        <div id="std_mvn"></div>
+
+
+        <div class="pure-g">
+            <div class="pure-u-1-5">
+                <a class="pure-button button-xsmall pure-button-disabled" href="#">Back</a>
+            </div>
+            <div class="pure-u-3-5">
+                <div class="page-count">Page 1 of ?</div>
+            </div>
+            <div class="pure-u-1-5">
+                <a class="pure-button button-xsmall" href="1.html">Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module">
+
+    import {build3dGraph} from "../script.js";
+
+    build3dGraph(
+        'std_mvn',
+        {
+            scale: 0.65,
+            xDomain: [-2, 2],
+            yDomain: [-2, 2],
+            step: 0.2
+        }, {}, {
+            key: 'sin_sin',
+            func: (x, y, params) => {
+                // return  Math.exp(-Math.sin(x * x) - (y * y));
+                return Math.pow(2 * Math.PI, -0.5) * Math.exp(-0.5 * (x * x + y * y));
+            }
+        });
+
+
+</script>
+</body>

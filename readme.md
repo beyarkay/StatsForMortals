@@ -10,8 +10,11 @@ It is made to be *fun*, but to still explain why the formula for the normal dist
 roots or *e*.
 ![ab](ab.gif)
 
-
 ### Intuition behind the Multivariate Normal Distribution
 Still a work in progress, but the most recent versions are uploaded 
-[here](https://people.cs.uct.ac.za/~KNXBOY001/StatsForMortals/scratchpad.html)
+[here](https://people.cs.uct.ac.za/~KNXBOY001/StatsForMortals/mvn/0_intro.html)
+
+### Future ideas
+Future ideas and notes are kept in `ideas.md` and
+ [here](https://people.cs.uct.ac.za/~KNXBOY001/StatsForMortals/ideas.md)
 
