@@ -18,5 +18,6 @@
     <orderEntry type="library" name="d3-simple-slider" level="application" />
     <orderEntry type="library" name="d3.v5" level="application" />
     <orderEntry type="library" name="math" level="application" />
+    <orderEntry type="library" name="three" level="application" />
   </component>
 </module>

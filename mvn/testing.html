@@ -1,101 +1,176 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <script src="mvn_styles.css"></script>
-    <meta charset="UTF-8">
-    <title>Testing</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Threejs Testing</title>
+    <style>
+        html, body {
+            margin: 0;
+            height: 100%;
+        }
+
+        /* small windows */
+        @media (max-width: 600px) {
+            #c {
+                width: 100%;
+                height: 300px;
+                display: block;
+            }
+        }
+
+        /* windows between 500px and 900px */
+        @media (min-width: 600px) and (max-width: 1800px) {
+            #c {
+                width: 600px;
+                height: 300px;
+                display: block;
+            }
+        }
+    </style>
 </head>
 <body>
+
+<p>La de da</p>
 <canvas id="c"></canvas>
+<p>La de da</p>
+<label for="points">Value:</label>
+<input type="range" id="points" name="points" min="-1" max="1" step="0.01">
 
 <script type="module">
-    // Three.js - Responsive HD-DPI
-    // from https://threejsfundamentals.org/threejs/threejs-responsive-hd-dpi.html
+    import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+    import {OrbitControls} from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
 
-    import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
+    let canvas;
+    let renderer;
+    let controls;
+    let scene;
+    let camera;
+    const DEBUG = true;
+    const extrema = [
+        [-3, 3],
+        [-1, 1],
+        [-3, 3],
+    ];
+    let surface;
 
-    function main() {
-        const canvas = document.querySelector('#c');
-        const renderer = new THREE.WebGLRenderer({canvas});
 
-        const fov = 75;
-        const aspect = 2;  // the canvas default
-        const near = 0.1;
-        const far = 5;
-        const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-        camera.position.z = 2;
+    function std_norm_distro(u, v, target) {
+        // Normalise u, v to the extrema
+        let x = u * (extrema[0][1] - extrema[0][0]) + (extrema[0][0]);
+        let z = v * (extrema[2][1] - extrema[2][0]) + (extrema[2][0]);
+        let rho = document.getElementById("points").value || 0;
+        let x_norm = (x - 0) / 1;
+        let z_norm = (z - 0) / 1;
+        let y = Math.exp(-0.5 * (Math.pow(x_norm, 2) - (2 * rho * x_norm * z_norm) + Math.pow(z_norm, 2)));
 
-        const scene = new THREE.Scene();
-
-        {
-            const color = 0xFFFFFF;
-            const intensity = 1;
-            const light = new THREE.DirectionalLight(color, intensity);
-            light.position.set(-1, 2, 4);
-            scene.add(light);
+        if (typeof target === "undefined") {
+            return y;
         }
-
-        const boxWidth = 1;
-        const boxHeight = 1;
-        const boxDepth = 1;
-        const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-
-        function makeInstance(geometry, color, x) {
-            const material = new THREE.MeshPhongMaterial({color});
-
-            const cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
-
-            cube.position.x = x;
-
-            return cube;
-        }
-
-        const cubes = [
-            makeInstance(geometry, 0x44aa88,  0),
-            makeInstance(geometry, 0x8844aa, -2),
-            makeInstance(geometry, 0xaa8844,  2),
-        ];
-
-        function resizeRendererToDisplaySize(renderer) {
-            const canvas = renderer.domElement;
-            const pixelRatio = window.devicePixelRatio;
-            const width  = canvas.clientWidth  * pixelRatio | 0;
-            const height = canvas.clientHeight * pixelRatio | 0;
-            const needResize = canvas.width !== width || canvas.height !== height;
-            if (needResize) {
-                renderer.setSize(width, height, false);
-            }
-            return needResize;
-        }
-
-        function render(time) {
-            time *= 0.001;
-
-            if (resizeRendererToDisplaySize(renderer)) {
-                const canvas = renderer.domElement;
-                camera.aspect = canvas.clientWidth / canvas.clientHeight;
-                camera.updateProjectionMatrix();
-            }
-
-            cubes.forEach((cube, ndx) => {
-                const speed = 1 + ndx * .1;
-                const rot = time * speed;
-                cube.rotation.x = rot;
-                cube.rotation.y = rot;
-            });
-
-            renderer.render(scene, camera);
-
-            requestAnimationFrame(render);
-        }
-
-        requestAnimationFrame(render);
+        target.set(x, y, z);
     }
 
-    main();
+    function resize_if_needed(renderer) {
+        const canvas = renderer.domElement;
+        const pixelRatio = window.devicePixelRatio;
+        const width = canvas.clientWidth * pixelRatio | 0;
+        const height = canvas.clientHeight * pixelRatio | 0;
+
+        const need_resize = canvas.width !== width || canvas.height !== height;
+        if (need_resize) {
+            renderer.setSize(width, height, false);
+        }
+        return need_resize;
+    }
 
 
+    function init() {
+        canvas = document.querySelector('#c');
+        renderer = new THREE.WebGLRenderer({canvas});
+
+        // Setup the camera
+        const fov = 70;
+        const aspect = 2;  // the canvas default
+        const near = 0.1;
+        const far = 50;
+        camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+        camera.position.set(0, 0, 7);
+
+        // Setup the mouse controls
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.update();
+
+        // Create the Scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color('#dadada');
+
+        // Add in two lights
+        let light = new THREE.PointLight("#ffffff", 1);
+        light.position.set(0, 3, 0);
+        scene.add(light);
+        light = new THREE.PointLight("#ffffff", 0.2);
+        light.position.set(0, -3, 0);
+        scene.add(light);
+
+
+        // Create a bounding box that shows the limits of the plot
+        if (DEBUG) {
+            const geometry = new THREE.BoxGeometry(
+                (extrema[0][1] - extrema[0][0]),
+                (extrema[1][1] - extrema[1][0]),
+                (extrema[2][1] - extrema[2][0]));
+            const material = new THREE.MeshPhongMaterial({
+                color: "rgb(246,255,247)",
+                opacity: 0.5,
+                transparent: true,
+                side: THREE.DoubleSide,
+            });
+            const cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+        }
+
+
+        // Create a parametric surface for the plot
+        const geometry = new THREE.ParametricGeometry(std_norm_distro, 25, 25);
+        const material = new THREE.MeshPhongMaterial({
+            color: 0x00ff00,
+            side: THREE.DoubleSide,
+            flatShading: true,
+        });
+        surface = new THREE.Mesh(geometry, material);
+        scene.add(surface);
+
+        console.log("initialised")
+
+    }
+
+    function animate() {
+        if (resize_if_needed(renderer)) {
+            const canvas = renderer.domElement;
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+        }
+        requestAnimationFrame(animate);
+        controls.update();
+
+        renderer.render(scene, camera);
+
+
+        const num_vertices = surface.geometry.vertices.length;
+        for (let i = 0; i < num_vertices; i++) {
+            // Normalise u, v to the extrema
+            let u = (surface.geometry.vertices[i].x - extrema[0][0]) / (extrema[0][1] - extrema[0][0]);
+            let v = (surface.geometry.vertices[i].z - extrema[2][0]) / (extrema[2][1] - extrema[2][0]);
+            surface.geometry.vertices[i].y = std_norm_distro(u, v);
+        }
+
+        surface.geometry.computeFaceNormals();
+        surface.geometry.computeVertexNormals();
+        surface.geometry.normalsNeedUpdate = true;
+        surface.geometry.verticesNeedUpdate = true;
+    }
+
+    init();
+    animate();
 
 </script>
 </body>
