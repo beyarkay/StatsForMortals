@@ -2,6 +2,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
     <title>Threejs Testing</title>
     <style>
         html, body {
@@ -33,8 +35,18 @@
 <p>La de da</p>
 <canvas id="c"></canvas>
 <p>La de da</p>
-<label for="points">Value:</label>
-<input type="range" id="points" name="points" min="-1" max="1" step="0.01">
+<label for="rho">rho:</label>
+<input type="range" id="rho" name="rho" min="-0.99" max="0.99" step="0.01" value="0"><br>
+
+<label for="sigma_x">sigma_x:</label>
+<input type="range" id="sigma_x" name="sigma_x" min="0.01" max="5" step="0.01" value="1">
+<label for="sigma_z">sigma_z:</label>
+<input type="range" id="sigma_z" name="sigma_z" min="0.01" max="5" step="0.01" value="1"><br>
+
+<label for="mu_x">mu_x:</label>
+<input type="range" id="mu_x" name="mu_x" min="-5" max="5" step="0.1" value="0">
+<label for="mu_z">mu_z:</label>
+<input type="range" id="mu_z" name="mu_z" min="-5" max="5" step="0.1" value="0"><br>
 
 <script type="module">
     import * as THREE from 'https://unpkg.com/three/build/three.module.js';
@@ -58,10 +70,21 @@
         // Normalise u, v to the extrema
         let x = u * (extrema[0][1] - extrema[0][0]) + (extrema[0][0]);
         let z = v * (extrema[2][1] - extrema[2][0]) + (extrema[2][0]);
-        let rho = document.getElementById("points").value || 0;
-        let x_norm = (x - 0) / 1;
-        let z_norm = (z - 0) / 1;
-        let y = Math.exp(-0.5 * (Math.pow(x_norm, 2) - (2 * rho * x_norm * z_norm) + Math.pow(z_norm, 2)));
+        let rho = document.getElementById("rho").value || 0;
+        let mu = [
+            (document.getElementById("mu_x").value || 0),
+            (document.getElementById("mu_z").value || 0)
+        ];
+        let sigma = [
+            (document.getElementById("sigma_x").value || 1),
+            (document.getElementById("sigma_z").value || 1)
+        ];
+
+        let x_norm = (x - mu[0]) / sigma[0];
+        let z_norm = (z - mu[1]) / sigma[1];
+        const quotient = Math.pow(Math.PI * sigma[0] * sigma[1] * Math.sqrt(1 - (rho * rho)), -0.5);
+        const exponent = Math.pow(x_norm, 2) - (2 * rho * x_norm * z_norm) + Math.pow(z_norm, 2);
+        let y = quotient * Math.exp(-0.5 * exponent);
 
         if (typeof target === "undefined") {
             return y;
@@ -101,7 +124,7 @@
 
         // Create the Scene
         scene = new THREE.Scene();
-        scene.background = new THREE.Color('#dadada');
+        scene.background = new THREE.Color('#ffffff');
 
         // Add in two lights
         let light = new THREE.PointLight("#ffffff", 1);
@@ -111,35 +134,123 @@
         light.position.set(0, -3, 0);
         scene.add(light);
 
+        // Create a floor at y=-0.0001 for the plot
+        const geometry_plane = new THREE.PlaneGeometry(
+            (extrema[0][1] - extrema[0][0]),
+            (extrema[2][1] - extrema[2][0])
+        );
+        geometry_plane.rotateX(Math.PI / 2);
+        geometry_plane.translate(0, -0.001, 0);
+        const material_plane = new THREE.MeshBasicMaterial({
+            color: "#000000",
+            opacity: 0.5,
+            transparent: true,
+            side: THREE.DoubleSide
+        });
+        const plane = new THREE.Mesh(geometry_plane, material_plane);
+        scene.add(plane);
 
-        // Create a bounding box that shows the limits of the plot
-        if (DEBUG) {
-            const geometry = new THREE.BoxGeometry(
-                (extrema[0][1] - extrema[0][0]),
-                (extrema[1][1] - extrema[1][0]),
-                (extrema[2][1] - extrema[2][0]));
-            const material = new THREE.MeshPhongMaterial({
-                color: "rgb(246,255,247)",
-                opacity: 0.5,
-                transparent: true,
-                side: THREE.DoubleSide,
-            });
-            const cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
-        }
+
+        // Setup some debug axes
+        let axesHelper = new THREE.AxesHelper();
+        scene.add(axesHelper);
+
+
+        // Add a line for the x-axis. Ticks come later
+        const geometry_x_axis = new THREE.BoxBufferGeometry(
+            (extrema[0][1] - extrema[0][0]), 0.05, 0.05,
+            1, 1, 1);
+        geometry_x_axis.translate(0, 0, extrema[2][1]);
+        const material_basic = new THREE.MeshBasicMaterial({
+            color: "#000000",
+            side: THREE.DoubleSide,
+        });
+        let x_axis_line = new THREE.Mesh(geometry_x_axis, material_basic);
+        scene.add(x_axis_line);
+
+        // Add a line for the z-axis. Ticks come later
+        const geometry_z_axis = new THREE.BoxBufferGeometry(
+            0.05, 0.05, (extrema[2][1] - extrema[2][0]),
+            1, 1, 1);
+        geometry_z_axis.translate(extrema[0][1], 0, 0);
+        let z_axis_line = new THREE.Mesh(geometry_z_axis, material_basic);
+        scene.add(z_axis_line);
+
+        // Setup the ability to render text
+        let loader = new THREE.FontLoader();
+        loader.load('cmu_serif_italic.json', font => {
+            const font_size = 0.4;
+
+
+            for (let x = Math.ceil(extrema[0][0]); x <= Math.floor(extrema[0][1]); x++) {
+                // Add x-tick text
+                const tick_text = x === 0 ? 'x' : x.toString();
+                let geometry_text = new THREE.TextGeometry(tick_text, {
+                    font: font,
+                    size: font_size,
+                    height: 0.005,
+                    curveSegments: 12,
+                    bevelEnabled: false,
+                });
+                geometry_text.computeBoundingBox();
+                let range = geometry_text.boundingBox.max.x - geometry_text.boundingBox.min.x;
+
+                geometry_text.translate(x - (range * 1.1) * 0.5, -(font_size + 0.1), extrema[2][1]);
+                let textGeo = new THREE.Mesh(geometry_text, material_basic);
+                scene.add(textGeo);
+
+                // Add x-tick dots
+                const geometry_x_tick = new THREE.BoxBufferGeometry(
+                    0.05, 0.2, 0.05,
+                    1, 1, 1);
+                geometry_x_tick.translate(x, 0, extrema[2][1]);
+
+
+                let meshTick = new THREE.Mesh(geometry_x_tick, material_basic);
+                scene.add(meshTick);
+
+
+            }
+            // // Add z-ticks
+            // for (let z = Math.ceil(extrema[2][0]); z <= Math.floor(extrema[2][1]); z++) {
+            //     let geometry = new THREE.TextGeometry(z.toString(), {
+            //         font: font,
+            //         size: font_size,
+            //         height: 0.005,
+            //         curveSegments: 12,
+            //         bevelEnabled: false,
+            //     });
+            //     geometry.rotateY(Math.PI * 0.5);
+            //     geometry.translate(extrema[0][1], -font_size, z);
+            //
+            //     let material = new THREE.MeshBasicMaterial({
+            //         color: "#000000",
+            //         side: THREE.DoubleSide,
+            //     });
+            //     let textGeo = new THREE.Mesh(geometry, material);
+            //     scene.add(textGeo);
+            // }
+
+
+        });
+
+
+        // Add z-ticks
 
 
         // Create a parametric surface for the plot
         const geometry = new THREE.ParametricGeometry(std_norm_distro, 25, 25);
-        const material = new THREE.MeshPhongMaterial({
-            color: 0x00ff00,
+        // Calculate colours based on surface's height:
+
+        updateColors(geometry);
+
+        const material = new THREE.MeshBasicMaterial({
+            vertexColors: THREE.VertexColors,
             side: THREE.DoubleSide,
-            flatShading: true,
+            flatShading: false,
         });
         surface = new THREE.Mesh(geometry, material);
         scene.add(surface);
-
-        console.log("initialised")
 
     }
 
@@ -154,7 +265,7 @@
 
         renderer.render(scene, camera);
 
-
+        // Update the surface based on slider changes
         const num_vertices = surface.geometry.vertices.length;
         for (let i = 0; i < num_vertices; i++) {
             // Normalise u, v to the extrema
@@ -162,11 +273,46 @@
             let v = (surface.geometry.vertices[i].z - extrema[2][0]) / (extrema[2][1] - extrema[2][0]);
             surface.geometry.vertices[i].y = std_norm_distro(u, v);
         }
+        updateColors(surface.geometry);
+
 
         surface.geometry.computeFaceNormals();
         surface.geometry.computeVertexNormals();
         surface.geometry.normalsNeedUpdate = true;
         surface.geometry.verticesNeedUpdate = true;
+        surface.geometry.elementsNeedUpdate = true;
+
+
+    }
+
+    function updateColors(geometry) {
+        geometry.computeBoundingBox();
+        let yMin = geometry.boundingBox.min.y;
+        let yMax = geometry.boundingBox.max.y;
+        let yRange = yMax - yMin;
+        let color, point, face, numberOfSides, vertexIndex;
+        // let colorScale = d3.scaleSequential(d3.interpolateBuGn).domain([yMax, yMin]);
+        let colorScale = d3.scaleSequential(d3.interpolateOrRd).domain([yMin, yMax]);
+
+        // first, assign colors to vertices based off of their height
+        for (let i = 0; i < geometry.vertices.length; i++) {
+            point = geometry.vertices[i];
+            // color = new THREE.Color(0xffffff);
+            color = new THREE.Color(colorScale(point.y));
+            // color.setHSL(0.7 * (yMax - point.y) / yRange, 1, 0.5);
+            geometry.colors[i] = color; // use this array for convenience
+        }
+        // copy the colors as necessary to the face's vertexColors array.
+        // faces are indexed using characters
+        const faceIndices = ['a', 'b', 'c', 'd'];
+        for (let i = 0; i < geometry.faces.length; i++) {
+            face = geometry.faces[i];
+            numberOfSides = (face instanceof THREE.Face3) ? 3 : 4;
+            for (let j = 0; j < numberOfSides; j++) {
+                vertexIndex = face[faceIndices[j]];
+                face.vertexColors[j] = geometry.colors[vertexIndex];
+            }
+        }
     }
 
     init();
