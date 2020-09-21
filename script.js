@@ -40,7 +40,7 @@ export function buildGraph(div_id, graph_params, inputs, function_params) {
                 .attr('min', inputs[i].min)
                 .attr('max', inputs[i].max)
                 .attr('step', inputs[i].step)
-                .attr('div_id', uid)
+                .attr('id', uid)
                 .attr('value', inputs[i].value)
                 .on('input', () => {
                     // let element = document.querySelector('#' + uid);
@@ -50,7 +50,7 @@ export function buildGraph(div_id, graph_params, inputs, function_params) {
 
             // Add a label for the range slider
             input_div.append('label')
-                .attr('div_id', 'label_' + uid)
+                .attr('id', 'label_' + uid)
                 .style('color', typeof inputs[i].color !== 'undefined' ? inputs[i].color : 'black')
                 .text(inputs[i].label + inputs[i].value)
                 .attr('for', uid);
@@ -59,7 +59,7 @@ export function buildGraph(div_id, graph_params, inputs, function_params) {
             // Add a checkbox
             input_div.append('input')
                 .attr('type', inputs[i].type)
-                .attr('div_id', uid)
+                .attr('id', uid)
                 .property('checked', inputs[i].checked)
                 .on('updateSurface', () => {
                     // let element = document.querySelector('#' + uid);
@@ -68,7 +68,7 @@ export function buildGraph(div_id, graph_params, inputs, function_params) {
                 });
 
             input_div.append('label')
-                .attr('div_id', 'label_' + uid)
+                .attr('id', 'label_' + uid)
                 .style('color', typeof inputs[i].color !== 'undefined' ? inputs[i].color : 'black')
                 .attr('for', uid)
                 .text(inputs[i].label);
@@ -110,34 +110,34 @@ export function buildGraph(div_id, graph_params, inputs, function_params) {
         let uid = div_id + '_' + function_params[i].key;
         svg.append("path")
             .attr("class", "line")
-            .attr('div_id', uid)
+            .attr('id', uid)
             .attr('fill', typeof function_params[i].fill !== 'undefined' ? function_params[i].fill : 'none')
             .attr('stroke', function_params[i].color)
             .attr('stroke-width', '2');
 
         // Add in a label for the function
         svg.append('text')
-            .attr('div_id', 'label_' + uid)
+            .attr('id', 'label_' + uid)
             .attr('fill', function_params[i].color)
             .text(function_params[i].label);
 
         if (typeof function_params[i].plot_var !== 'undefined' && function_params[i].plot_var) {
             svg.append("g")
-                .attr('div_id', 'var_' + uid);
+                .attr('id', 'var_' + uid);
             // Add lines and circles to make up a sort of box plot
 
             d3.select('#var_' + uid)
                 .append("line")
-                .attr('div_id', 'line_left_' + uid);
+                .attr('id', 'line_left_' + uid);
             d3.select('#var_' + uid)
                 .append("line")
-                .attr('div_id', 'line_right_' + uid);
+                .attr('id', 'line_right_' + uid);
             d3.select('#var_' + uid)
                 .append("line")
-                .attr('div_id', 'line_flat_' + uid);
+                .attr('id', 'line_flat_' + uid);
             d3.select('#var_' + uid)
                 .append("circle")
-                .attr('div_id', 'circle_' + uid);
+                .attr('id', 'circle_' + uid);
         }
     }
 
