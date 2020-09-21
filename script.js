@@ -1,3 +1,6 @@
+import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+import {OrbitControls} from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
+
 const margin = {
     top: 10,
     right: 10,
@@ -10,14 +13,11 @@ const padding = {
 };
 const width = window.innerWidth - padding.left - padding.right;
 const height = width * 0.5;
-let xScale;
-let yScale;
-let lineGen;
 
-let corners;
-let extents;
-let svg;
-
+// 2D
+let xScale, yScale, lineGen, corners, extents, svg;
+// 3D
+let canvas, renderer, controls, scene, camera, surface;
 
 // 2D things
 export function buildGraph(div_id, graph_params, inputs, function_params) {
@@ -318,7 +318,268 @@ function updateGraph(div_id, graph_params, inputs, function_params) {
 }
 
 // 3D Things
-export function build3dGraph(div_id, graph_params, inputs, function_params) {
+export function build3dGraph(canvas_id, graph_params, inputs, function_params) {
+    // TODO dynamically respond to the inputs array
+    canvas = document.querySelector('#' + canvas_id);
+    renderer = new THREE.WebGLRenderer({canvas});
+
+    // Setup the camera
+    const fov = 70;
+    const aspect = 2;
+    const near = 0.1;
+    const far = 50;
+    camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.set(0, 0, 7);
+
+    // Setup the mouse controls
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.update();
+
+    // Create the Scene
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color('#ffffff');
+
+    // Add in two lights
+    let light = new THREE.PointLight("#ffffff", 1);
+    light.position.set(0, 3, 0);
+    scene.add(light);
+    light = new THREE.PointLight("#ffffff", 0.2);
+    light.position.set(0, -3, 0);
+    scene.add(light);
+
+    // Create a floor at y=-0.0001 for the plot
+    const geometry_plane = new THREE.PlaneGeometry(
+        (graph_params.extrema[0][1] - graph_params.extrema[0][0]),
+        (graph_params.extrema[2][1] - graph_params.extrema[2][0])
+    );
+    geometry_plane.rotateX(Math.PI / 2);
+    geometry_plane.translate(0, -0.001, 0);
+    const material_plane = new THREE.MeshBasicMaterial({
+        color: "#000000",
+        opacity: 0.5,
+        transparent: true,
+        side: THREE.DoubleSide
+    });
+    const plane = new THREE.Mesh(geometry_plane, material_plane);
+    scene.add(plane);
 
 
+    // TODO refactor this junk into a for-loop
+    // Add a line for the x-axis. Ticks come later
+    const geometry_x_axis = new THREE.BoxBufferGeometry(
+        (graph_params.extrema[0][1] - graph_params.extrema[0][0]), 0.05, 0.05,
+        1, 1, 1);
+    geometry_x_axis.translate(0, 0, graph_params.extrema[2][1]);
+    const material_basic = new THREE.MeshBasicMaterial({
+        color: "#000000",
+        side: THREE.DoubleSide,
+    });
+    let x_axis_line = new THREE.Mesh(geometry_x_axis, material_basic);
+    scene.add(x_axis_line);
+
+    // Add a line for the z-axis. Ticks come later
+    const geometry_z_axis = new THREE.BoxBufferGeometry(
+        0.05, 0.05, (graph_params.extrema[2][1] - graph_params.extrema[2][0]),
+        1, 1, 1);
+    geometry_z_axis.translate(graph_params.extrema[0][1], 0, 0);
+    let z_axis_line = new THREE.Mesh(geometry_z_axis, material_basic);
+    scene.add(z_axis_line);
+
+    // Add a line for the y-axis. Ticks come later
+    const geometry_y_axis = new THREE.BoxBufferGeometry(
+        0.05, (graph_params.extrema[1][1] - graph_params.extrema[1][0]), 0.05,
+        1, 1, 1);
+    // geometry_y_axis.translate(graph_params.extrema[0][1], 0, 0);
+    let y_axis_line = new THREE.Mesh(geometry_y_axis, material_basic);
+    scene.add(y_axis_line);
+
+    // TODO END- refactor this junk into a for loop
+
+    // Setup the ability to render text
+    let loader = new THREE.FontLoader();
+    loader.load('cmu_serif_italic.json', font => {
+        const font_size = 0.4;
+
+        // TODO refactor these for loops into ANOTHER FOR LOOP!
+        for (let x = Math.ceil(graph_params.extrema[0][0]); x <= Math.floor(graph_params.extrema[0][1]); x++) {
+            // Add x-tick text
+            const tick_text = x === 0 ? 'x' : x.toString();
+            let geometry_text = new THREE.TextGeometry(tick_text, {
+                font: font,
+                size: font_size,
+                height: 0.005,
+                curveSegments: 12,
+                bevelEnabled: false,
+            });
+            geometry_text.computeBoundingBox();
+            let range = geometry_text.boundingBox.max.x - geometry_text.boundingBox.min.x;
+
+            geometry_text.translate(x - (range * 1.1) * 0.5, -(font_size + 0.1), graph_params.extrema[2][1]);
+            let textGeo = new THREE.Mesh(geometry_text, material_basic);
+            scene.add(textGeo);
+
+            // Add x-tick dots
+            const geometry_x_tick = new THREE.BoxBufferGeometry(
+                0.05, 0.2, 0.05,
+                1, 1, 1);
+            geometry_x_tick.translate(x, 0, graph_params.extrema[2][1]);
+            let meshTick = new THREE.Mesh(geometry_x_tick, material_basic);
+            scene.add(meshTick);
+        }
+        for (let z = Math.ceil(graph_params.extrema[2][0]); z <= Math.floor(graph_params.extrema[2][1]); z++) {
+            // Add x-tick text
+            const tick_text = z === 0 ? 'z' : z.toString();
+            let geometry_text = new THREE.TextGeometry(tick_text, {
+                font: font,
+                size: font_size,
+                height: 0.005,
+                curveSegments: 12,
+                bevelEnabled: false,
+            });
+            geometry_text.rotateY(Math.PI * 0.5);
+            geometry_text.computeBoundingBox();
+            let range = geometry_text.boundingBox.max.z - geometry_text.boundingBox.min.z;
+            geometry_text.translate(graph_params.extrema[0][1], -(font_size + 0.1), z + (range * 1.1) * 0.5);
+            let textGeo = new THREE.Mesh(geometry_text, material_basic);
+            scene.add(textGeo);
+
+            // Add z-tick dots
+            const geometry_z_tick = new THREE.BoxBufferGeometry(
+                0.05, 0.2, 0.05,
+                1, 1, 1);
+            geometry_z_tick.translate(graph_params.extrema[2][1], 0, z);
+            let meshTick = new THREE.Mesh(geometry_z_tick, material_basic);
+            scene.add(meshTick);
+        }
+        for (let y = Math.ceil(graph_params.extrema[1][0]); y <= Math.floor(graph_params.extrema[1][1]); y++) {
+            // Add x-tick text
+            const tick_text = y === 0 ? 'y' : y.toString();
+            let geometry_text = new THREE.TextGeometry(tick_text, {
+                font: font,
+                size: font_size * 0.5,
+                height: 0.005,
+                curveSegments: 12,
+                bevelEnabled: false,
+            });
+            geometry_text.computeBoundingBox();
+            let text_width = geometry_text.boundingBox.max.x - geometry_text.boundingBox.min.x;
+            let text_height = geometry_text.boundingBox.max.y - geometry_text.boundingBox.min.y;
+            geometry_text.translate(text_width, y - 0.5 * (text_height * 0.8), 0);
+            let textGeo = new THREE.Mesh(geometry_text, material_basic);
+            scene.add(textGeo);
+
+            // Add z-tick bars
+            const geometry_y_tick = new THREE.BoxBufferGeometry(
+                0.2, 0.05, 0.05,
+                1, 1, 1);
+            geometry_y_tick.translate(0, y, 0);
+            let meshTick = new THREE.Mesh(geometry_y_tick, material_basic);
+            scene.add(meshTick);
+        }
+        // TODO END-refactor these for loops into ANOTHER FOR LOOP!
+
+    });
+
+    // Create a parametric surface for the plot
+    // TODO factor out std_norm_distro to be parametric itself
+    let params = calculateParams(canvas_id, inputs);
+    const geometry_plot = new THREE.ParametricGeometry((u, v, target) => {
+        target.set(u, v, function_params[0].func(u, v, params))
+    }, 25, 25);
+
+    // TODO is this required here, or is it going to be done in animate() anyway?
+    // Calculate colours based on surface's height:
+    updateColors(geometry_plot);
+
+    const material_plot = new THREE.MeshBasicMaterial({
+        vertexColors: THREE.VertexColors,
+        side: THREE.DoubleSide,
+        flatShading: false,
+    });
+    surface = new THREE.Mesh(geometry_plot, material_plot);
+    scene.add(surface);
+
+    update3dGraph(canvas_id, graph_params, inputs, function_params);
+
+}
+
+function update3dGraph(canvas_id, graph_params, inputs, function_params) {
+
+    if (resize_if_needed(renderer)) {
+        const canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+    }
+    requestAnimationFrame(() => {
+        update3dGraph(canvas_id, graph_params, inputs, function_params)
+    });
+    controls.update();
+
+    renderer.render(scene, camera);
+
+    let params = calculateParams(canvas_id, inputs);
+    // Update the surface based on slider changes
+    const num_vertices = surface.geometry.vertices.length;
+    for (let i = 0; i < num_vertices; i++) {
+        // Normalise u, v to the extrema
+        let u = (surface.geometry.vertices[i].x - graph_params.extrema[0][0]) / (graph_params.extrema[0][1] - graph_params.extrema[0][0]);
+        let v = (surface.geometry.vertices[i].z - graph_params.extrema[2][0]) / (graph_params.extrema[2][1] - graph_params.extrema[2][0]);
+        surface.geometry.vertices[i].y = function_params[0].func(u, v, params);
+    }
+    updateColors(surface.geometry);
+
+    surface.geometry.computeFaceNormals();
+    surface.geometry.computeVertexNormals();
+    surface.geometry.normalsNeedUpdate = true;
+    surface.geometry.verticesNeedUpdate = true;
+    surface.geometry.elementsNeedUpdate = true;
+}
+
+
+function updateColors(geometry) {
+    geometry.computeBoundingBox();
+    let yMin = geometry.boundingBox.min.y;
+    let yMax = geometry.boundingBox.max.y;
+    let yRange = yMax - yMin;
+    let color, point, face, numberOfSides, vertexIndex;
+    let colorScale = d3.scaleSequential(d3.interpolatePuBu).domain([yMin, yMax]);
+
+    // first, assign colors to vertices based off of their height
+    for (let i = 0; i < geometry.vertices.length; i++) {
+        point = geometry.vertices[i];
+        // color = new THREE.Color(0xffffff);
+        color = new THREE.Color(colorScale(point.y));
+        // color.setHSL(0.7 * (yMax - point.y) / yRange, 1, 0.5);
+        geometry.colors[i] = color; // use this array for convenience
+    }
+    // copy the colors as necessary to the face's vertexColors array.
+    // faces are indexed using characters
+    const faceIndices = ['a', 'b', 'c', 'd'];
+    for (let i = 0; i < geometry.faces.length; i++) {
+        face = geometry.faces[i];
+        numberOfSides = (face instanceof THREE.Face3) ? 3 : 4;
+        for (let j = 0; j < numberOfSides; j++) {
+            vertexIndex = face[faceIndices[j]];
+            face.vertexColors[j] = geometry.colors[vertexIndex];
+        }
+    }
+}
+
+function resize_if_needed(renderer) {
+    const canvas = renderer.domElement;
+    // const pixelRatio = window.devicePixelRatio;
+    // const pixelAdjustedWidth = canvas.clientWidth * pixelRatio | 0;
+    // const pixelAdjustedHeight = canvas.clientHeight * pixelRatio | 0;
+    // console.log(pixelRatio, pixelAdjustedWidth, canvas.width, pixelAdjustedHeight, canvas.height);
+    //
+    // if (canvas.width !== pixelAdjustedWidth || canvas.height !== pixelAdjustedHeight) {
+    //     renderer.setSize(pixelAdjustedWidth, pixelAdjustedHeight, false);
+    //     return true
+    // }
+    if (renderer.getPixelRatio() !== window.devicePixelRatio) {
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        return true
+    }
+    return false;
 }
